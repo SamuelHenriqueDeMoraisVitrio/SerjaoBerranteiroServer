@@ -1,2 +1,2 @@
-# Serj-oBerranteiroServer
+# SerjaoBerranteiroServer
 Web server c for lua
