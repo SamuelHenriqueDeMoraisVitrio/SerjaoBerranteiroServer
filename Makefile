@@ -1,24 +1,33 @@
-COMP = clang
-# OPC = -std=c17
-NOME = EXE
-START = echo "" && echo "Compilação concluida. Iniciando..." && echo "" && echo "" && ./$(NOME) && echo ""
-FILE ?= main.c
+COMP = gcc
+OPC = -shared -fpic -o
+NOME = serjao_berranteiro/serjao_berranteiro.so
+START = echo "" && echo "Compilação concluida. Iniciando..." && echo "" && echo "" && v teste.lua && echo ""
+FILE ?= src/main.c
+
+compile: clear
+	$(COMP) $(OPC) $(NOME) $(FILE)
+	@echo ""
 
 all: clear
-	$(COMP) $(OPC) -o $(NOME) $(FILE)
+	$(COMP) $(OPC) $(NOME) $(FILE)
 	@$(START)
 	@echo ""
 
-compile: clear
-	$(COMP) $(OPC) -o $(NOME) $(FILE)
+set: clear
+	@$(START)
+	@echo ""
+
+zip:
+	@rm serjao_server.zip
+	@zip -r serjao_server.zip serjao_berranteiro || echo "Error when compressing \"serjao_berranteiro\" directory"
+	@echo ""
+	@sleep 1
+	@unzip -l serjao_server.zip || echo "Zip does not exist"
+	@echo ""
 
 clear:
-	@rm -rf EXE .*.c.swp .*.h.swp .cache
+	rm -rf .*.c.swp .*.h.swp .cache
 	clear
 	@echo ""
 	@ls -alh --color=auto
-	@echo ""
-
-run:
-	@$(START)
 	@echo ""
