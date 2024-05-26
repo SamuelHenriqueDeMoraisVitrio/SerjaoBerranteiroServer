@@ -1,7 +1,8 @@
 COMP = gcc
 OPC = -shared -fpic -o
 NOME = serjao_berranteiro/serjao_berranteiro.so
-START = echo "" && echo "Compilação concluida. Iniciando..." && echo "" && echo "" && v teste.lua && echo ""
+STRLUA ?= lua teste.lua
+START = echo "" && echo "Compilação concluida. Iniciando..." && echo "" && echo "" && $(STRLUA) && echo ""
 FILE ?= src/main.c
 
 compile: clear
@@ -13,7 +14,7 @@ all: clear
 	@$(START)
 	@echo ""
 
-set: clear
+teste: clear
 	@$(START)
 	@echo ""
 

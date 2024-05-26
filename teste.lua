@@ -2,7 +2,8 @@ local serjao = require("serjao_berranteiro/serjao_berranteiro")
 
 local function main_server()
 
-  return "sla"
+  print(url)
+  return "slaaa"
 end
 
-serjao.initserver(3001, main_server, true);
+url = serjao.initserver(3011, main_server)

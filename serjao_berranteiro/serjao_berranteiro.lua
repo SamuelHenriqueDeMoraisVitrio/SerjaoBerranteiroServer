@@ -1,7 +1,7 @@
 
 
 ---@class SerjaoBerranteiro
----@field initserver fun(port: number, main_server: fun(), singleprocesses: boolean)
+---@field initserver fun(port: number, main_server: fun(), singleprocesses: boolean|nil)
 
 local info = debug.getinfo(1, "S")
 local path = info.source:match("@(.*/)") or ""
