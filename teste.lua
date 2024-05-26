@@ -3,11 +3,12 @@ local serjao = require("serjao_berranteiro/serjao_berranteiro")
 local function main_server(request)
 
 
-  local header = request.header[1]
-  local param = request.params[1]
+  local key_valueP = request.params[1]
+  local key_valueH = request.header[1]
 
-  print("v: " .. header)
-  print("param: " .. param)
+  print("\tHeader\tParam")
+  print("key: ", key_valueH.key, "\t", key_valueP.key)
+  print("value: " .. key_valueH.value .. "\t" .. key_valueP.value)
   return "slaaa"
 end
 

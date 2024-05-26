@@ -16,7 +16,7 @@ LuaCEmbedResponse *setHP_index(LuaCEmbed *args, bool header) {
     char *value =
         header ? cb.request.get_header(cbrq, keyvalue) : cb.request.get_param(cbrq, keyvalue);
 
-    if (value == NULL) { return lw.response.send_error("Index not found"); }
+    if (value == NULL) { return lw.response.send_str("Index not found"); }
 
     return lw.response.send_str(value);
   }
@@ -24,13 +24,16 @@ LuaCEmbedResponse *setHP_index(LuaCEmbed *args, bool header) {
   if (lw.args.get_type(args, 1) == lw.types.NUMBER) {
     int index = (int)(lw.args.get_long(args, 1) - 1);
 
-    printf("\n\t%d\n", index);
+    if (index >= hp->size) { return lw.response.send_str("Index not found"); }
 
-    if (index >= hp->size) { return lw.response.send_error("Index not found"); }
+    const char *value = hp->keys_vals[index]->value;
+    const char *key = hp->keys_vals[index]->key;
 
-    char *value = hp->keys_vals[index]->value;
+    LuaCEmbedTable *tableKeys_vals = lw.tables.new_anonymous_table(l);
+    lw.tables.set_string_prop(tableKeys_vals, "value", value);
+    lw.tables.set_string_prop(tableKeys_vals, "key", key);
 
-    return lw.response.send_str(value);
+    return lw.response.send_table(tableKeys_vals);
   }
 
   return lw.response.send_error("The index type is not compatible");
