@@ -3,7 +3,7 @@ local serjao = require("serjao_berranteiro/serjao_berranteiro")
 local function main_server(request)
 
 
-  local v = request.header[3]
+  local v = request.header["num1"]
 
   print("v: ", v)
   return "slaaa"

@@ -7,13 +7,13 @@ LuaCEmbed *l;
 CwebHttpRequest *cbrq;
 bool singleprocesses = false;
 
-LuaCEmbedResponse *returnHeadearsPro(LuaCEmbedTable *self, LuaCEmbed *args) {
+LuaCEmbedResponse *setHP_index(LuaCEmbed *args) {
   if (lw.args.get_type(args, 1) == lw.types.STRING) {
     char *keyvalue = lw.args.get_str(args, 1);
 
     char *value = cb.request.get_header(cbrq, keyvalue);
 
-    if (value == NULL) { return NULL; }
+    if (value == NULL) { return lw.response.send_error("Index not found"); }
 
     return lw.response.send_str(value);
   }
@@ -21,14 +21,22 @@ LuaCEmbedResponse *returnHeadearsPro(LuaCEmbedTable *self, LuaCEmbed *args) {
   if (lw.args.get_type(args, 1) == lw.types.NUMBER) {
     int index = (int)(lw.args.get_long(args, 1) - 1);
 
-    if (index >= cbrq->headers->size) { return NULL; }
+    if (index >= cbrq->headers->size) { return lw.response.send_error("Index not found"); }
 
     char *value = cbrq->headers->keys_vals[index]->value;
 
     return lw.response.send_str(value);
   }
 
-  return lw.response.send_error("Index incompatible");
+  return lw.response.send_error("The index type is not compatible");
+}
+
+LuaCEmbedResponse *setHeaders(LuaCEmbedTable *self, LuaCEmbed *args) {
+  return setHP_index(args);
+}
+
+LuaCEmbedResponse *setParams(LuaCEmbedTable *self, LuaCEmbed *args) {
+  return setHP_index(args);
 }
 
 CwebHttpResponse *main_sever(CwebHttpRequest *request) {
@@ -38,8 +46,10 @@ CwebHttpResponse *main_sever(CwebHttpRequest *request) {
   lw.tables.set_string_prop(tableServer, "route", request->route);
   lw.tables.set_string_prop(tableServer, "method", request->method);
   LuaCEmbedTable *tableHeaders = lw.tables.new_anonymous_table(l);
+  LuaCEmbedTable *tableParams = lw.tables.new_anonymous_table(l);
   lw.tables.set_sub_table_prop(tableServer, "header", tableHeaders);
-  lw.tables.set_method(tableHeaders, "__index", returnHeadearsPro);
+  lw.tables.set_sub_table_prop(tableServer, "params", tableParams);
+  lw.tables.set_method(tableHeaders, "__index", setHeaders);
   lw.evaluate(l, "serverresponse = server_callback(request_main_server)");
 
   if (lw.has_errors(l)) {
