@@ -7447,12 +7447,14 @@ int  private_CWebServer_run_server_in_multiprocess(CwebServer *self){
                 exit(0);
             }
 
-            struct timeval timer2;
             long seconds =  (long)self->client_timeout;
-            timer2.tv_sec =  seconds;  // tempo em segundos
-            timer2.tv_usec =(long)((self->client_timeout - (double)seconds) * 1000000);
-            setsockopt(new_socket, SOL_SOCKET, SO_RCVTIMEO, &timer2, sizeof(timer2));
 
+            if(seconds >0 ){
+                struct timeval timer2;
+                timer2.tv_sec =  seconds;  // tempo em segundos
+                timer2.tv_usec =(long)((self->client_timeout - (double)seconds) * 1000000);
+                setsockopt(new_socket, SOL_SOCKET, SO_RCVTIMEO, &timer2, sizeof(timer2));
+            }
 
 
             private_cweb_execute_request_in_safty_mode(self,new_socket,client_ip);
