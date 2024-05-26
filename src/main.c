@@ -7,11 +7,14 @@ LuaCEmbed *l;
 CwebHttpRequest *cbrq;
 bool singleprocesses = false;
 
-LuaCEmbedResponse *setHP_index(LuaCEmbed *args) {
+LuaCEmbedResponse *setHP_index(LuaCEmbed *args, bool header) {
+  CwebDict *hp = header ? cbrq->headers : cbrq->params;
+
   if (lw.args.get_type(args, 1) == lw.types.STRING) {
     char *keyvalue = lw.args.get_str(args, 1);
 
-    char *value = cb.request.get_header(cbrq, keyvalue);
+    char *value =
+        header ? cb.request.get_header(cbrq, keyvalue) : cb.request.get_param(cbrq, keyvalue);
 
     if (value == NULL) { return lw.response.send_error("Index not found"); }
 
@@ -21,9 +24,11 @@ LuaCEmbedResponse *setHP_index(LuaCEmbed *args) {
   if (lw.args.get_type(args, 1) == lw.types.NUMBER) {
     int index = (int)(lw.args.get_long(args, 1) - 1);
 
-    if (index >= cbrq->headers->size) { return lw.response.send_error("Index not found"); }
+    printf("\n\t%d\n", index);
 
-    char *value = cbrq->headers->keys_vals[index]->value;
+    if (index >= hp->size) { return lw.response.send_error("Index not found"); }
+
+    char *value = hp->keys_vals[index]->value;
 
     return lw.response.send_str(value);
   }
@@ -32,11 +37,11 @@ LuaCEmbedResponse *setHP_index(LuaCEmbed *args) {
 }
 
 LuaCEmbedResponse *setHeaders(LuaCEmbedTable *self, LuaCEmbed *args) {
-  return setHP_index(args);
+  return setHP_index(args, true);
 }
 
 LuaCEmbedResponse *setParams(LuaCEmbedTable *self, LuaCEmbed *args) {
-  return setHP_index(args);
+  return setHP_index(args, false);
 }
 
 CwebHttpResponse *main_sever(CwebHttpRequest *request) {
@@ -49,6 +54,7 @@ CwebHttpResponse *main_sever(CwebHttpRequest *request) {
   LuaCEmbedTable *tableParams = lw.tables.new_anonymous_table(l);
   lw.tables.set_sub_table_prop(tableServer, "header", tableHeaders);
   lw.tables.set_sub_table_prop(tableServer, "params", tableParams);
+  lw.tables.set_method(tableParams, "__index", setParams);
   lw.tables.set_method(tableHeaders, "__index", setHeaders);
   lw.evaluate(l, "serverresponse = server_callback(request_main_server)");
 

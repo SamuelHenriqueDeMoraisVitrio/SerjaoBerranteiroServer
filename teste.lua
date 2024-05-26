@@ -3,9 +3,11 @@ local serjao = require("serjao_berranteiro/serjao_berranteiro")
 local function main_server(request)
 
 
-  local v = request.header["num1"]
+  local header = request.header[1]
+  local param = request.params[1]
 
-  print("v: ", v)
+  print("v: " .. header)
+  print("param: " .. param)
   return "slaaa"
 end
 
