@@ -1,9 +1,23 @@
 local serjao = require("serjao_berranteiro/serjao_berranteiro")
 
-local function main_server()
+local function main_server(request)
 
-  print(url)
+
+  local v = request.header[3]
+
+  print("v: ", v)
   return "slaaa"
 end
 
-url = serjao.initserver(3011, main_server)
+local i = 3000
+
+while true do
+
+  local erro = serjao.initserver(i, main_server, true)
+
+  i = i + 1
+
+  if erro == false then
+    break
+  end
+end
