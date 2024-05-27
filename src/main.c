@@ -8,11 +8,16 @@ LuaCEmbedNamespace lw;
 LuaCEmbed *l;
 CwebHttpRequest *cbrq;
 LuaCEmbedTable *set_server;
-// struct CwebServer *server;
 bool singleprocesses = false;
 
+#include "configuring_the_server/set_server.c"
+#include "configuring_the_server/set_server.h"
 #include "request/request.c"
 #include "request/request.h"
+
+int serjao_berranteiro_start_point(lua_State *state);
+CwebHttpResponse *main_sever(CwebHttpRequest *request);
+LuaCEmbedResponse *initserver(LuaCEmbed *arg);
 
 CwebHttpResponse *main_sever(CwebHttpRequest *request) {
   cbrq = request;
@@ -45,17 +50,11 @@ LuaCEmbedResponse *initserver(LuaCEmbed *arg) {
   }
 
   bool errorInit = true;
-  bool single = false;
   short i = 3000;
   do {
     struct CwebServer serverTEMP = newCwebSever(port, main_sever);
 
-    serverTEMP.single_process = single;
-
-    printf("\n\tsingle: %s\n", single ? "true" : "false");
-
-    single = lw.tables.get_bool_prop(set_server, "single_process");
-    //  server = &serverTEMP;
+    get_params_for_server_config(&serverTEMP);
 
     errorInit = cb.server.start(&serverTEMP);
     port = errorInit ? i : port;
@@ -65,34 +64,15 @@ LuaCEmbedResponse *initserver(LuaCEmbed *arg) {
     }
   } while (errorInit);
 
-  // server.allow_cors = true ;
-  // server.single_process = false;
-  // server.client_timeout = 10;
-  // server.max_queue =10000 maximo de fila
-  // server.max_requests = 50
-
   return NULL;
 }
-/*
-LuaCEmbedResponse *single_processes(LuaCEmbed *args) {
 
-  server->single_process = lw.args.get_bool(args, 0);
-
-  if (lw.has_errors(args)) {
-    server->single_process = false;
-  }
-
-  return lw.response.send_str("Serto");
-}
-*/
 int serjao_berranteiro_start_point(lua_State *state) {
   cb = newCwebNamespace();
   lw = newLuaCEmbedNamespace();
   l = lw.newLuaLib(state, false);
   lw.add_callback(l, "initserver", initserver);
-  set_server = lw.globals.new_table(l, "set_server");
-  lw.tables.set_bool_prop(set_server, "single_process", false);
+  creat_table_for_config_server();
 
-  //  lw.add_callback(l, "single_process", single_processes);
   return lw.perform(l);
 }

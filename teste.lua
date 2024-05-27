@@ -1,11 +1,18 @@
 local serjao = require("serjao_berranteiro/serjao_berranteiro")
-print(set_sever.single_process)
-set_server.single_process = true
 
+
+print(set_server.single_process)
+print(set_server.use_folder)
+
+set_server.single_process = true
+set_server.use_folder = false
+
+print(set_server.single_process)
+print(set_server.use_folder)
 
 local function main_server(requests)
-  param = requests.params[1]
-  header = requests.header["num1"]
+  local param = requests.params[1]
+  local header = requests.header["num1"]
   local ola = set_server.single_process
   print("\n\n\t", ola)
   print("\n\theader value: ", header)
@@ -14,4 +21,4 @@ local function main_server(requests)
 end
 
 local i = 3000
--- serjao.initserver(i, main_server)
+serjao.initserver(i, main_server)
