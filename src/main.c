@@ -1,15 +1,17 @@
 #include "dependencies/CWebStudio.h"
 #include "dependencies/LuaCEmbed.h"
+#include <stdio.h>
+#include <time.h>
 
 CwebNamespace cb;
 LuaCEmbedNamespace lw;
 LuaCEmbed *l;
 CwebHttpRequest *cbrq;
+// struct CwebServer *server;
 bool singleprocesses = false;
 
-#include "request/request.h"
 #include "request/request.c"
-
+#include "request/request.h"
 
 CwebHttpResponse *main_sever(CwebHttpRequest *request) {
   cbrq = request;
@@ -30,33 +32,56 @@ CwebHttpResponse *main_sever(CwebHttpRequest *request) {
 LuaCEmbedResponse *initserver(LuaCEmbed *arg) {
   unsigned short port = (unsigned short)lw.args.get_long(arg, 0);
 
-  if (lw.args.get_type(arg, 2) != lw.types.NILL) { singleprocesses = lw.args.get_bool(arg, 2); }
-
-  if (lw.has_errors(arg)) { return lw.response.send_error("Uninformed arguments"); }
+  if (lw.has_errors(arg)) {
+    return lw.response.send_error("Uninformed arguments");
+  }
   //
   const char *functionvalue = "function(value) server_callback = value end";
   lw.args.generate_arg_clojure_evalation(arg, 1, functionvalue);
 
-  if (lw.has_errors(arg)) { return lw.response.send_error("Uninformed arguments"); }
-  struct CwebServer server = newCwebSever(port, main_sever);
+  if (lw.has_errors(arg)) {
+    return lw.response.send_error("Uninformed arguments");
+  }
 
-  //server.allow_cors = true ;
-  //server.single_process = false;
-  //server.client_timeout = 10;
-  //server.max_queue =10000 maximo de fila
-  //server.max_requests = 50
+  bool errorInit = true;
+  short i = 3000;
+  do {
+    struct CwebServer serverTEMP = newCwebSever(port, main_sever);
+    //  server = &serverTEMP;
 
+    errorInit = cb.server.start(&serverTEMP);
+    port = errorInit ? i : port;
+    i++;
+    if (i == 5000) {
+      break;
+    }
+  } while (errorInit);
 
-  server.single_process = singleprocesses;
-  bool errorInit = cb.server.start(&server);
+  // server.allow_cors = true ;
+  // server.single_process = false;
+  // server.client_timeout = 10;
+  // server.max_queue =10000 maximo de fila
+  // server.max_requests = 50
 
-  return lw.response.send_bool(errorInit);
+  return NULL;
 }
+/*
+LuaCEmbedResponse *single_processes(LuaCEmbed *args) {
 
+  server->single_process = lw.args.get_bool(args, 0);
+
+  if (lw.has_errors(args)) {
+    server->single_process = false;
+  }
+
+  return lw.response.send_str("Serto");
+}
+*/
 int serjao_berranteiro_start_point(lua_State *state) {
   cb = newCwebNamespace();
   lw = newLuaCEmbedNamespace();
   l = lw.newLuaLib(state, false);
   lw.add_callback(l, "initserver", initserver);
+  //  lw.add_callback(l, "single_process", single_processes);
   return lw.perform(l);
 }
