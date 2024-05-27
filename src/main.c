@@ -7,6 +7,7 @@ CwebNamespace cb;
 LuaCEmbedNamespace lw;
 LuaCEmbed *l;
 CwebHttpRequest *cbrq;
+LuaCEmbedTable *set_server;
 // struct CwebServer *server;
 bool singleprocesses = false;
 
@@ -44,9 +45,16 @@ LuaCEmbedResponse *initserver(LuaCEmbed *arg) {
   }
 
   bool errorInit = true;
+  bool single = false;
   short i = 3000;
   do {
     struct CwebServer serverTEMP = newCwebSever(port, main_sever);
+
+    serverTEMP.single_process = single;
+
+    printf("\n\tsingle: %s\n", single ? "true" : "false");
+
+    single = lw.tables.get_bool_prop(set_server, "single_process");
     //  server = &serverTEMP;
 
     errorInit = cb.server.start(&serverTEMP);
@@ -82,6 +90,9 @@ int serjao_berranteiro_start_point(lua_State *state) {
   lw = newLuaCEmbedNamespace();
   l = lw.newLuaLib(state, false);
   lw.add_callback(l, "initserver", initserver);
+  set_server = lw.globals.new_table(l, "set_server");
+  lw.tables.set_bool_prop(set_server, "single_process", false);
+
   //  lw.add_callback(l, "single_process", single_processes);
   return lw.perform(l);
 }
