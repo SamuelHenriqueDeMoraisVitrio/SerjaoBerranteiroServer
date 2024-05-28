@@ -22,6 +22,16 @@ LuaCEmbedResponse *initserver(LuaCEmbed *arg);
 CwebHttpResponse *main_sever(CwebHttpRequest *request) {
   cbrq = request;
   create_request(l);
+
+  LuaCEmbedTable *create_response_type = lw.tables.new_anonymous_table(l);
+  LuaCEmbedTable *create_sub_response = lw.tables.new_anonymous_table(l);
+  lw.tables.set_sub_table_prop(create_response_type, "response",
+                               create_sub_response);
+  lw.tables.set_string_prop(create_sub_response, "send_string", "nill");
+
+  char *valor_de_response =
+      lw.tables.get_string_prop(create_sub_response, "send_string");
+
   lw.evaluate(l, "serverresponse = server_callback(request_main_server)");
 
   if (lw.has_errors(l)) {
@@ -32,7 +42,7 @@ CwebHttpResponse *main_sever(CwebHttpRequest *request) {
 
   char *repost = lw.globals.get_string(l, "serverresponse");
 
-  return cb.response.send_text(repost, 200);
+  return cb.response.send_text(valor_de_response, 200);
 }
 
 LuaCEmbedResponse *initserver(LuaCEmbed *arg) {
