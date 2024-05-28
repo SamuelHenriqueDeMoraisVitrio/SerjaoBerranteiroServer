@@ -3,8 +3,11 @@
 ---@field method string
 ---@field route string
 
+---@class SerjaoResponse
+
 ---@class SerjaoBerranteiro
 ---@field initserver fun(port: number, main_server: fun(request: Request), singleprocesses: boolean|nil)
+---@field send_file fun(file:string, status_code:number:content_type:str | nil) SerjaoResponse
 
 local info = debug.getinfo(1, "S")
 local path = info.source:match("@(.*/)") or ""

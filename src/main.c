@@ -1,7 +1,5 @@
 #include "dependencies/CWebStudio.h"
 #include "dependencies/LuaCEmbed.h"
-#include <stdio.h>
-#include <time.h>
 
 CwebNamespace cb;
 LuaCEmbedNamespace lw;
@@ -9,11 +7,13 @@ LuaCEmbed *l;
 CwebHttpRequest *cbrq;
 LuaCEmbedTable *set_server;
 bool singleprocesses = false;
+#include "configuring_the_server/set_server.h"
+#include "request/request.h"
+#include "response/response.h"
 
 #include "configuring_the_server/set_server.c"
-#include "configuring_the_server/set_server.h"
 #include "request/request.c"
-#include "request/request.h"
+#include "response/response.c"
 
 int serjao_berranteiro_start_point(lua_State *state);
 CwebHttpResponse *main_sever(CwebHttpRequest *request);
@@ -43,13 +43,33 @@ CwebHttpResponse *main_sever(CwebHttpRequest *request) {
 
   if (lw.has_errors(l)) {
     char *error = lw.get_error_message(l);
-    printf("\n\t%s\n\n", error);
+    printf("%s\n",error);
     return cb.response.send_text("Interno server error", 500);
   }
 
-  char *repost = lw.globals.get_string(l, "serverresponse");
+  int response_type = lw.globals.get_type(l,"serverresponse");
 
-  return cb.response.send_text(repost, 200);
+  if(response_type == lw.types.STRING){
+      char *value = lw.globals.get_string(l,"serverresponse");
+      return cb.response.send_text(value, 200);
+  }
+
+  if(response_type == lw.types.TABLE){
+    LuaCEmbedTable *table = lw.globals.get_table(l,"serverresponse");
+
+    CwebHttpResponse* response_cb=  (CwebHttpResponse*)lw.tables.get_long_prop(table,"response_pointer");
+    if (lw.has_errors(l)) {
+      char *error = lw.get_error_message(l);
+      printf("%s\n",error);
+      return cb.response.send_text("Interno server error", 500);
+    }
+
+    return response_cb;
+  }
+
+
+  return NULL;
+
 }
 
 LuaCEmbedResponse *initserver(LuaCEmbed *arg) {
@@ -70,7 +90,7 @@ LuaCEmbedResponse *initserver(LuaCEmbed *arg) {
   short i = 3000;
   do {
     struct CwebServer serverTEMP = newCwebSever(port, main_sever);
-
+    serverTEMP.function_timeout = 100;
     get_params_for_server_config(&serverTEMP);
 
     errorInit = cb.server.start(&serverTEMP);
@@ -89,7 +109,9 @@ int serjao_berranteiro_start_point(lua_State *state) {
   lw = newLuaCEmbedNamespace();
   l = lw.newLuaLib(state, false);
   lw.add_callback(l, "initserver", initserver);
+  lw.add_callback(l,"send_file",send_file);
   creat_table_for_config_server();
 
   return lw.perform(l);
 }
+
