@@ -13,7 +13,12 @@ local function main_server(requests)
 
   print(header[1])
 
-  return "header"
+  -- serjao.response.send_text = "hello"
+  -- serjao.response.sen_var_html()
+
+  local sla = serjao.response.send_text("Texto")
+  print(sla)
+  return "sa"
 end
 
 local i = 3000

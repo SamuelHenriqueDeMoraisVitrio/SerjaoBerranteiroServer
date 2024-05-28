@@ -19,18 +19,25 @@ int serjao_berranteiro_start_point(lua_State *state);
 CwebHttpResponse *main_sever(CwebHttpRequest *request);
 LuaCEmbedResponse *initserver(LuaCEmbed *arg);
 
+LuaCEmbedResponse *send_text(LuaCEmbedTable *self, LuaCEmbed *args) {
+
+  char *texto = lw.args.get_str(args, 1);
+  if (lw.has_errors(args)) {
+    return NULL;
+  }
+
+  return lw.response.send_str(texto);
+}
+
 CwebHttpResponse *main_sever(CwebHttpRequest *request) {
   cbrq = request;
   create_request(l);
 
-  LuaCEmbedTable *create_response_type = lw.tables.new_anonymous_table(l);
-  LuaCEmbedTable *create_sub_response = lw.tables.new_anonymous_table(l);
-  lw.tables.set_sub_table_prop(create_response_type, "response",
-                               create_sub_response);
-  lw.tables.set_string_prop(create_sub_response, "send_string", "nill");
-
-  char *valor_de_response =
-      lw.tables.get_string_prop(create_sub_response, "send_string");
+  LuaCEmbedTable *sub_get_type_response = lw.tables.new_anonymous_table(l);
+  LuaCEmbedTable *get_type_response = lw.tables.new_anonymous_table(l);
+  lw.tables.set_sub_table_prop(get_type_response, "response",
+                               sub_get_type_response);
+  lw.tables.set_method(sub_get_type_response, "send_text", send_text);
 
   lw.evaluate(l, "serverresponse = server_callback(request_main_server)");
 
@@ -42,7 +49,7 @@ CwebHttpResponse *main_sever(CwebHttpRequest *request) {
 
   char *repost = lw.globals.get_string(l, "serverresponse");
 
-  return cb.response.send_text(valor_de_response, 200);
+  return cb.response.send_text(repost, 200);
 }
 
 LuaCEmbedResponse *initserver(LuaCEmbed *arg) {
