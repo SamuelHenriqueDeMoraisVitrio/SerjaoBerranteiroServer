@@ -16,7 +16,7 @@ local path = info.source:match("@(.*/)") or ""
 local lib_path = ''
 
 if os.getenv("HOME") then
-    lib_path = path.."serjao_berranteiro.so"
+    lib_path = path .. "serjao_berranteiro.so"
 else
     perror("undefined os")
 end
