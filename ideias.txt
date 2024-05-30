@@ -1,2 +1,0 @@
-Loop de portas
-listar keys headers

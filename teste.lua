@@ -2,9 +2,7 @@ local serjao = require("serjao_berranteiro/serjao_berranteiro")
 set_server.single_process = true
 
 local function main_server(requests)
-
-   return serjao.send_file("serjao_server.zip",200,"application/zip")
-
+   return "<html><body><h1>Hello Word</h1></body></html>"
 end
 
 local i = 3000
