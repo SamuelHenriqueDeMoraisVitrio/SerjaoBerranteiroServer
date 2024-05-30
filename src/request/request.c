@@ -1,8 +1,6 @@
 
 
-LuaCEmbedResponse *setHP_index(LuaCEmbed *args, CwebDict *hp,
-                               char *(*get_unified_param)(CwebHttpRequest *,
-                                                          const char *)) {
+LuaCEmbedResponse *setHP_index(LuaCEmbed *args, CwebDict *hp, char *(*get_unified_param)(CwebHttpRequest *, const char *)) {
 
   if (lw.args.get_type(args, 1) == lw.types.STRING) {
     char *keyvalue = lw.args.get_str(args, 1);
