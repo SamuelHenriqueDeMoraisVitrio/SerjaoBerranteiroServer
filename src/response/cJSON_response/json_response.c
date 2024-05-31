@@ -91,7 +91,6 @@ cJSON *lua_fluid_json_dump_table_to_cJSON(LuaCEmbedTable *table) {
   return lua_fluid_json_dump_to_cJSON_array(table);
 }
 
-
 LuaCEmbedResponse *send_json(LuaCEmbed *args) {
   cJSON *result = NULL;
 
