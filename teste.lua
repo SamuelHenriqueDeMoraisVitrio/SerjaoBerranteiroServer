@@ -4,9 +4,9 @@ set_server.single_process = true
 set_server.nullterminator="casa"
 
 
-local function main_server(requests)
+local function main_server(request)
 
-    if requests.route == "/teste" then 
+    if request.route == "/teste" then
             local tabelaCriadaAgora = {
                 mame="aaaaaa",
                 age=27,
@@ -17,7 +17,7 @@ local function main_server(requests)
 
             return serjao.send_json(tabelaCriadaAgora, 200)
     end 
-    return "aaaaaaa"
+    return serjao.send_file("static/veado.jpg", 200)
 end
 
 local i = 3000

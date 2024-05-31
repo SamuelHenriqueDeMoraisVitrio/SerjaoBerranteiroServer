@@ -3,11 +3,11 @@
 ---@field allow_cors boolean
 ---@field use_folder boolean
 ---@field static_folder string
----@field function_timeout integer
----@field client_timeout integer
----@field max_queue integer
----@field max_request integer
----
+---@field function_timeout number
+---@field client_timeout number
+---@field max_queue number
+---@field max_request number
+
 ---@class Param
 ---@field key string
 ---@field value string
@@ -20,15 +20,15 @@
 ---@field url string
 ---@field method string
 ---@field route string
----@field params table<integer, Param> | table<string, string>
----@field headers table<integer, Header> | table<string, string>
+---@field params table<number, Param> | table<string, string>
+---@field headers table<number, Header> | table<string, string>
 
 ---@class SerjaoResponse
 
 ---@class SerjaoBerranteiro
 ---@field initserver fun(port:number, main_server:fun(request: Request))
----@field send_file fun(file:string, status_code:number, content_type:string|nil) : SerjaoResponse
-
+---@field send_file fun(route_file:string, status_code:number, content_type:string|nil) : SerjaoResponse
+---@field send_json fun(data: table, status_code: number): SerjaoResponse
 
 function strcmp(str1, str2)
     local len1 = #str1
