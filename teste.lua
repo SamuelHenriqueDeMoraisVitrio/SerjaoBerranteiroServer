@@ -7,12 +7,11 @@ local function main_server(requests)
 
     if requests.route == "/teste" then 
             local tabelaCriadaAgora = {
-                name='Nateus',
+                mame="aaaaaa",
                 age=27,
-                maried=false,
-                sons={
-                    {name='son1',maried='null'}
-                }
+                valor="null",
+                lista = {1,2,3,"null"},
+                maried=false
             }
 
             return serjao.send_json(tabelaCriadaAgora, 200)

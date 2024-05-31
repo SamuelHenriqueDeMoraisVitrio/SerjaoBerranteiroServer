@@ -23,8 +23,7 @@ cJSON *lua_fluid_json_dump_to_cJSON_array(LuaCEmbedTable *table) {
 
     if (type == lw.types.STRING) {
       char *value = lw.tables.get_string_by_index(table, i);
-      char *nil_code = lw.globals.get_string(
-          table->main_object, "private_lua_json_fluid_null_code");
+      char *nil_code = lw.tables.get_string_prop(set_server,"nullterminator");
 
       if (strcmp(nil_code, value) == 0) {
         cJSON_AddItemToArray(created_array, cJSON_CreateNull());
@@ -61,8 +60,7 @@ cJSON *lua_fluid_json_dump_to_cJSON_object(LuaCEmbedTable *table) {
     }
     if (type == lw.types.STRING) {
       char *value = lw.tables.get_string_by_index(table, i);
-      char *nil_code = lw.globals.get_string(
-          table->main_object, "private_lua_json_fluid_null_code");
+      char *nil_code = lw.tables.get_string_prop(set_server, "nullterminator");
       if (strcmp(nil_code, value) == 0) {
         cJSON_AddNullToObject(created_object, key);
       } else {
@@ -97,6 +95,7 @@ cJSON *lua_fluid_json_dump_table_to_cJSON(LuaCEmbedTable *table) {
 LuaCEmbedResponse *send_json(LuaCEmbed *args) {
   cJSON *result = NULL;
 
+
   int element_type = lw.args.get_type(args, 0);
   const short status_code = lw.args.get_long(args, 1);
 
@@ -116,15 +115,16 @@ LuaCEmbedResponse *send_json(LuaCEmbed *args) {
   }
 
   else if (element_type == lw.types.TABLE) {
-    
+
     LuaCEmbedTable *value = lw.args.get_table(args, 0);
+
     result = lua_fluid_json_dump_table_to_cJSON(value);
 
-  } else {
+  }
+  else {
     return lw.response.send_error("element of type %s cannot be dumped",
                                   lw.convert_arg_code(element_type));
   }
-  
   if (lw.has_errors(args)) {
     const char *msg_error = lw.get_error_message(args);
     return lw.response.send_error(msg_error);
