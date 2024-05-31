@@ -93,11 +93,13 @@ cJSON *lua_fluid_json_dump_table_to_cJSON(LuaCEmbedTable *table) {
   return lua_fluid_json_dump_to_cJSON_array(table);
 }
 
+
 LuaCEmbedResponse *send_json(LuaCEmbed *args) {
   cJSON *result = NULL;
 
   int element_type = lw.args.get_type(args, 0);
   const short status_code = lw.args.get_long(args, 1);
+
   if (element_type == lw.types.STRING) {
     char *value = lw.args.get_str(args, 0);
     result = cJSON_CreateString(value);
@@ -114,12 +116,15 @@ LuaCEmbedResponse *send_json(LuaCEmbed *args) {
   }
 
   else if (element_type == lw.types.TABLE) {
+    
     LuaCEmbedTable *value = lw.args.get_table(args, 0);
     result = lua_fluid_json_dump_table_to_cJSON(value);
+
   } else {
     return lw.response.send_error("element of type %s cannot be dumped",
                                   lw.convert_arg_code(element_type));
   }
+  
   if (lw.has_errors(args)) {
     const char *msg_error = lw.get_error_message(args);
     return lw.response.send_error(msg_error);
