@@ -21,7 +21,8 @@ CwebHttpResponse *main_sever(CwebHttpRequest *request) {
   if (response_type == lw.types.TABLE) {
     LuaCEmbedTable *table = lw.globals.get_table(l, "serverresponse");
 
-    CwebHttpResponse *response_cb = (CwebHttpResponse *)lw.tables.get_long_prop(table, "response_pointer");
+    CwebHttpResponse *response_cb =
+        (CwebHttpResponse *)lw.tables.get_long_prop(table, "response_pointer");
     if (lw.has_errors(l)) {
       char *error = lw.get_error_message(l);
       printf("%s\n", error);
@@ -74,6 +75,7 @@ int serjao_berranteiro_start_point(lua_State *state) {
   lw.add_callback(l, "send_file", send_file);
   lw.add_callback(l, "send_html", send_HTML);
   lw.add_callback(l, "send_json_string", send_json_string);
+  lw.add_callback(l, "send_json", send_json);
   creat_table_for_config_server();
 
   return lw.perform(l);
