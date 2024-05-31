@@ -1,6 +1,6 @@
 local serjao = require("serjao_berranteiro/serjao_berranteiro")
 set_server.single_process = true
-
+set_server.nullterminator="casa"
 
 
 local function main_server(requests)
@@ -9,7 +9,7 @@ local function main_server(requests)
             local tabelaCriadaAgora = {
                 mame="aaaaaa",
                 age=27,
-                valor="null",
+                valor="casa",
                 lista = {1,2,3,"null"},
                 maried=false
             }
