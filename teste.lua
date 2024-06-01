@@ -22,3 +22,5 @@ end
 
 local i = 3000
 serjao.initserver(i, main_server)
+
+print("\n\n\tThe End\n\n")
