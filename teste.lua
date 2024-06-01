@@ -20,7 +20,7 @@ local function main_server(request)
 
     if  request.route == "/upload" then
         local content = request.read_body(1000000)
-        local tipe = request.header["tipo"]
+        local tipo = request.header["Content-Type"]
         if tipo == nill then
             return "Tipo de arquivo não informado."
         end
