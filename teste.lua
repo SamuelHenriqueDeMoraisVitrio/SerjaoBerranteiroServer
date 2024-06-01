@@ -3,7 +3,7 @@ local serjao = require("serjao_berranteiro/serjao_berranteiro")
 set_server.single_process = true
 set_server.nullterminator="casa"
 
-local teste = io.open("static/veado.jpg", rb)
+local teste = io.open("static/veado.jpg", "rb"):read("a")
 
 local function main_server(request)
 
@@ -20,9 +20,10 @@ local function main_server(request)
             return serjao.send_json(tabelaCriadaAgora, 200)
     end
 
-    print("\n\t", type(teste), '\n')
-    print('\t', serjao.read_content(teste), '\n')
-    return serjao.send_file("static/veado.jpg", 200)
+    return serjao.send_raw(teste,"image/jpg",200);
+
+
+
 end
 
 serjao.initserver(3000, main_server)

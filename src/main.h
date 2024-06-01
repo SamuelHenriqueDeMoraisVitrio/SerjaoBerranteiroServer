@@ -14,13 +14,11 @@ LuaCEmbedTable *set_server;
 #include "configuring_the_server/set_server.h"
 #include "request/headers.h"
 #include "response/declaration.h"
-#include "teste/read_type.h"
 
 
 #include "configuring_the_server/set_server.c"
 #include "request/definitions.h"
 #include "response/definition.h"
-#include "teste/read_type.c"
 
 int serjao_berranteiro_start_point(lua_State *state);
 CwebHttpResponse *main_sever(CwebHttpRequest *request);
