@@ -10,11 +10,13 @@ LuaCEmbedResponse *send_raw(LuaCEmbed *args){
     return lw.response.send_error(erro_msg);
   }
   CwebHttpResponse *response = NULL;
+
   if(firsr_type == lw.types.STRING){
     long size;
     char *value = lw.args.get_raw_str(args,&size,0);
     response = cb.response.send_any(content_type,size,(unsigned char*)value,status_code);
   }
+
   if(firsr_type == LUA_TUSERDATA){
     lw.args.generate_arg_clojure_evalation(args,0,"function (value)raw_response = value:read('a') end ");
     if (lw.has_errors(args)) {
@@ -29,6 +31,7 @@ LuaCEmbedResponse *send_raw(LuaCEmbed *args){
     }
     response = cb.response.send_any(content_type,size,(unsigned char*)value,status_code);
   }
+
   else{
     return  lw.response.send_error("undefined type\n");
   }
