@@ -3,9 +3,8 @@ local serjao = require("serjao_berranteiro/serjao_berranteiro")
 set_server.single_process = true
 set_server.nullterminator="casa"
 
-local teste = io.open("static/veado.jpg", "rb")
 local function main_server(request)
-
+    local teste = io.open("static/veado.jpg", "rb"):read('a')
 
     if request.route == "/teste" then
             local tabelaCriadaAgora = {

@@ -16,9 +16,8 @@ LuaCEmbedResponse *send_raw(LuaCEmbed *args){
     char *value = lw.args.get_raw_str(args,&size,0);
     response = cb.response.send_any(content_type,size,(unsigned char*)value,status_code);
   }
-
-  if(firsr_type == LUA_TUSERDATA){
-    lw.args.generate_arg_clojure_evalation(args,0,"function (value)raw_response = value:read('a') end ");
+  else if(firsr_type == LUA_TUSERDATA){
+    lw.args.generate_arg_clojure_evalation(args,0,"function(value) raw_response = value:read('a') end ");
     if (lw.has_errors(args)) {
       char *erro_msg = lw.get_error_message(args);
       return lw.response.send_error(erro_msg);
