@@ -1,26 +1,25 @@
 #include "../src/dependencies/CWebStudio.h"
-#include "CxpathJson.h"
 
 CwebNamespace cb;
-CxpathJsonNamespace xpath;
-CxpathJsonErrorNamespace errors;
 
-CwebHttpResponse *main_server(CwebHttpRequest *request) {
+CwebHttpResponse *main_sever(CwebHttpRequest *request ){
+    unsigned char *read_content_cb = cb.request.read_content(request, 20000);
+    CwebDict *query_paramns = request->params;
+    for(int i = 0; i < query_paramns->size; i++){
+        CwebKeyVal *key_val = query_paramns->keys_vals[i];
+        char *key = key_val->key;
+        char *value = key_val->value;
+        printf("%s : %s\n", key, value);
+    }
+    printf("-----------------------------------------------\n");
+    printf("\t%s\n\n", read_content_cb);
+    return cb.response.send_text("Url readed", 200);
 
-  cJSON *custom = cJSON_CreateObject();
-  cJSON_AddStringToObject(custom, "a", "value of a");
-  cJSON_AddStringToObject(custom, "b", "value of b");
-  CwebHttpResponse *response = cb.response.send_cJSON(custom, 200);
-  return response;
 }
 
-int main() {
-  xpath = newCxpathJsonNamespace();
-  errors = xpath.errors;
-  cb = newCwebNamespace();
-
-  struct CwebServer server = newCwebSever(3000, main_server);
-
-  cb.server.start(&server);
-  return 0;
+int main(int argc, char *argv[]){
+    cb = newCwebNamespace();
+    CwebServer server = newCwebSever(5000, main_sever);
+    cb.server.start(&server);
+    return 0;
 }

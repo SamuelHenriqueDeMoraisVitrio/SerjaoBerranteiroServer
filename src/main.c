@@ -76,6 +76,7 @@ int serjao_berranteiro_start_point(lua_State *state) {
   lw.add_callback(l, "send_html", send_HTML);
   lw.add_callback(l, "send_json_string", send_json_string);
   lw.add_callback(l, "send_json", send_json);
+  lw.add_callback(l , "read_content", leitura_de_tipo);
   creat_table_for_config_server();
 
   return lw.perform(l);
