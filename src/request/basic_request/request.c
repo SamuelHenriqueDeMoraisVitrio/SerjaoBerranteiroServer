@@ -40,8 +40,7 @@ LuaCEmbedResponse *setParams(LuaCEmbedTable *self, LuaCEmbed *args) {
 }
 
 void create_request(LuaCEmbed *args) {
-  LuaCEmbedTable *tableServer =
-      lw.globals.new_table(args, "request_main_server");
+  LuaCEmbedTable *tableServer = lw.globals.new_table(args, "request_main_server");
   lw.tables.set_string_prop(tableServer, "url", cbrq->url);
   lw.tables.set_string_prop(tableServer, "route", cbrq->route);
   lw.tables.set_string_prop(tableServer, "method", cbrq->method);
