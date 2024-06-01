@@ -17,8 +17,7 @@ LuaCEmbedResponse *send_file(LuaCEmbed *args) {
     return lw.response.send_error(erro_msg);
   }
 
-  CwebHttpResponse *response =
-      cb.response.send_file(rout_file, content_type, status_code);
+  CwebHttpResponse *response = cb.response.send_file(rout_file, content_type, status_code);
 
   LuaCEmbedTable *table = lw.tables.new_anonymous_table(args);
   lw.tables.set_long_prop(table, "response_pointer", (long long)response);
@@ -34,7 +33,7 @@ LuaCEmbedResponse *send_HTML(LuaCEmbed *args){
     return lw.response.send_error(msg_error);
   }
 
-  CwebHttpResponse *response = cb.response.send_var_html(html_code, status_code);
+  CwebHttpResponse *response = cb.response.send_var_html((char *)html_code, status_code);
 
   LuaCEmbedTable *table = lw.tables.new_anonymous_table(args);
   lw.tables.set_long_prop(table, "response_pointer", (long long)response);
