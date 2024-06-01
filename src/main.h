@@ -12,7 +12,7 @@ CwebHttpRequest *cbrq;
 LuaCEmbedTable *set_server;
 
 #include "configuring_the_server/set_server.h"
-#include "request/headers.h"
+#include "request/declaration.h"
 #include "response/declaration.h"
 
 

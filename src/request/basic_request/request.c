@@ -45,7 +45,7 @@ void create_request(LuaCEmbed *args) {
   lw.tables.set_string_prop(tableServer, "url", cbrq->url);
   lw.tables.set_string_prop(tableServer, "route", cbrq->route);
   lw.tables.set_string_prop(tableServer, "method", cbrq->method);
-
+  lw.tables.set_method(tableServer,"read_body",read_raw_body);
   LuaCEmbedTable *tableHeaders = lw.tables.new_anonymous_table(args);
   LuaCEmbedTable *tableParams = lw.tables.new_anonymous_table(args);
 

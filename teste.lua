@@ -18,6 +18,12 @@ local function main_server(request)
             return serjao.send_json(tabelaCriadaAgora, 200)
     end
 
+    if  request.route == "/upload" then
+        local content = request.read_body(1000)
+        print(content)
+        return "conteudo livre"
+
+    end
     return serjao.send_raw(teste,"image/jpg",200);
 
 
