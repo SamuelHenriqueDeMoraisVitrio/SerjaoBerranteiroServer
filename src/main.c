@@ -41,7 +41,7 @@ LuaCEmbedResponse *initserver(LuaCEmbed *arg) {
   if (lw.has_errors(arg)) {
     return lw.response.send_error("Uninformed arguments");
   }
-  //
+
   const char *functionvalue = "function(value) server_callback = value end";
   lw.args.generate_arg_clojure_evalation(arg, 1, functionvalue);
 
@@ -77,6 +77,7 @@ int serjao_berranteiro_start_point(lua_State *state) {
   lw.add_callback(l, "send_json_string", send_json_string);
   lw.add_callback(l, "send_json", send_json);
   lw.add_callback(l , "send_raw", send_raw);
+  lw.add_callback(l, "send_text", send_text);
 
   creat_table_for_config_server();
 
