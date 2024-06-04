@@ -21,7 +21,7 @@
 ---@field method string
 ---@field route string
 ---@field params table<number, Param> | table<string, string>
----@field headers table<number, Header> | table<string, string>
+---@field header table<number, Header> | table<string, string>
 
 ---@class SerjaoResponse
 
