@@ -1,4 +1,5 @@
 local serjao = require("serjao_berranteiro/serjao_berranteiro")
+local fluid = require("testeFluidJson/luaFluidJson/luaFluidJson")
 
 set_server.single_process = true
 set_server.nullterminator="casa"
@@ -14,7 +15,11 @@ local tabelaCriadaAgora = {
 local function main_server(request)
 
     if request.route == "/copy" then
-        local outra = request.read_json_body(1000000)
+        local outra = request.read_json_body(100000000)
+        if not outra then
+            print("Error in copy to outra.\n")
+        end
+        print(fluid.dumps_to_string(outra, true))
         return "opa copy"
     end
 
