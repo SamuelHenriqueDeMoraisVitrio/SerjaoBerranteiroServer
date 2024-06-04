@@ -2,7 +2,7 @@ local serjao = require("serjao_berranteiro/serjao_berranteiro")
 local fluid = require("testeFluidJson/luaFluidJson/luaFluidJson")
 
 set_server.single_process = true
-set_server.nullterminator="casa"
+-- set_server.nullterminator="casa"
 
 local tabelaCriadaAgora = {
     mame="aaaaaa",

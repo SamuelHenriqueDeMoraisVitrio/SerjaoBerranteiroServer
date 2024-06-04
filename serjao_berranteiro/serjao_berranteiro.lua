@@ -8,27 +8,30 @@
 ---@field max_queue number
 ---@field max_request number
 
----@class Param
+---@class param
 ---@field key string
 ---@field value string
 
----@class Header
+---@class header
 ---@field key string
 ---@field value string
 
----@class Request
+---@class request
 ---@field url string
 ---@field method string
 ---@field route string
----@field params table<number, Param> | table<string, string>
----@field header table<number, Header> | table<string, string>
+---@field params table<number, param> | table<string, string>
+---@field header table<number, header> | table<string, string>
+---@field read_json_body fun(max_size: number) : table
+---@field read_body fun(max_size: number) : file
 
----@class SerjaoResponse
+---@class serjaoResponse
 
----@class SerjaoBerranteiro
----@field initserver fun(port:number, main_server:fun(request: Request))
----@field send_file fun(route_file:string, status_code:number, content_type:string|nil) : SerjaoResponse
----@field send_json fun(data: table, status_code: number): SerjaoResponse
+---@class serjaoBerranteiro
+---@field initserver fun(port:number, main_server:fun(request: request))
+---@field send_file fun(route_file: string, status_code: number, content_type: string|nil) : serjaoResponse
+---@field send_json fun(data: table, status_code: number): serjaoResponse
+---@field send_raw fun(content: any, content_type: string, status_code: number) : serjaoResponse
 
 function strcmp(str1, str2)
     local len1 = #str1

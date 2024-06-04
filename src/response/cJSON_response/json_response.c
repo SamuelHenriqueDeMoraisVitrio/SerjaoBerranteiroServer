@@ -23,7 +23,7 @@ cJSON *lua_fluid_json_dump_to_cJSON_array(LuaCEmbedTable *table) {
 
     if (type == lw.types.STRING) {
       char *value = lw.tables.get_string_by_index(table, i);
-      char *nil_code = lw.tables.get_string_prop(set_server,"nullterminator");
+      char *nil_code = lw.tables.get_string_prop(set_server, "nullterminator");
 
       if (strcmp(nil_code, value) == 0) {
         cJSON_AddItemToArray(created_array, cJSON_CreateNull());
