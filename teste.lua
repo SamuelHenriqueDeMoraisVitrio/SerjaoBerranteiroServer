@@ -9,4 +9,4 @@ local function main_server(request)
     return "conteudo lido"
 end
 
-serjao.initdesktop("chromium-brwoser",main_server)
+serjao.initdesktop("chromium-browser",main_server)

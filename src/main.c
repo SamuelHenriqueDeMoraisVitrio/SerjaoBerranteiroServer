@@ -84,36 +84,56 @@ LuaCEmbedResponse *initdesktop(LuaCEmbed *arg) {
     return lw.response.send_error("Uninformed arguments");
   }
 
-  pid_t pid_server;
+  pid_t pid_server =0;
   int port = 0;
-  pid_t pid_browser;
   for(int i = 3000; i < 3010; i++){
     pid_server = fork();
-    bool is_the_child =pid_server == 0;
-    bool is_the_master = pid_server > 0;
-    if(is_the_child){
+    if(pid_server==0){
       struct CwebServer serverTEMP = newCwebSever(i, main_sever);
       serverTEMP.function_timeout = 100;
       get_params_for_server_config(&serverTEMP);
       serverTEMP.single_process = true;
       serverTEMP.allow_cors = false;
       cb.server.start(&serverTEMP);
-      printf("deu exit\n");
+      printf("deu exit %d\n",i);
       exit(0);
     }
-    if(is_the_master){
-      sleep(1);
-      int status;
-      pid_t result = waitpid(pid_server, &status, WNOHANG);
-      if (result == 0) {
-        // Processo filho ainda está vivo
-        printf("Servidor ainda está vivo na porta %d.\n", i);
-        port = i;
-        break;
-      }
+
+    sleep(1);
+    int status;
+    pid_t result = waitpid(pid_server, &status, WNOHANG);
+    if (result == 0) {
+      // Processo filho ainda está vivo
+      port = i;
+      break;
     }
+
   }
   printf("server rodando em %d\n",port);
+  pid_t pid_browser = fork();
+  if(pid_browser == 0){
+    char comand[200] ={0};
+    sprintf(comand,"%s --app=http://localhost:%d/",starter,port);
+    system(comand);
+    exit(0);
+  }
+
+  while (true){
+    int status;
+    pid_t brwoser_result = waitpid(pid_browser, &status, WNOHANG);
+    if(brwoser_result != 0){
+      kill(pid_server, SIGKILL) ;
+      kill(pid_browser,SIGKILL);
+      break;
+    }
+    pid_t server_seult = waitpid(pid_server,&status,WNOHANG);
+    if(server_seult != 0){
+      kill(pid_server, SIGKILL) ;
+      kill(pid_browser,SIGKILL);
+      break;
+    }
+  }
+  printf("application terminated\n");
   return NULL;
 }
 
