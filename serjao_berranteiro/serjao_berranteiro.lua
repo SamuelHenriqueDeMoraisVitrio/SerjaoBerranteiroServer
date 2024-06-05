@@ -20,18 +20,22 @@
 ---@field url string
 ---@field method string
 ---@field route string
----@field params table<number, param> | table<string, string>
----@field header table<number, header> | table<string, string>
----@field read_json_body fun(max_size: number) : table
----@field read_body fun(max_size: number) : file
+---@field params table<number, param>|table<string, string>
+---@field header table<number, header>|table<string, string>
+---@field read_json_body fun(max_size:number):table
+---@field read_body fun(max_size:number):file
 
 ---@class serjaoResponse
 
 ---@class serjaoBerranteiro
----@field initserver fun(port:number, main_server:fun(request: request))
----@field send_file fun(route_file: string, status_code: number, content_type: string|nil) : serjaoResponse
----@field send_json fun(data: table, status_code: number): serjaoResponse
----@field send_raw fun(content: any, content_type: string, status_code: number) : serjaoResponse
+---@field initserver fun(initport:number, lastport:number, main_server:fun(request:request))
+---@field initdesktop fun(initport:number, lastport:number, main_server:fun(request:request))
+---@field send_text fun(text:string, status_code:number):serjaoResponse
+---@field send_file fun(route_file:string, status_code:number, content_type:string|nil):serjaoResponse
+---@field send_json fun(data:any, status_code:number):serjaoResponse
+---@field send_raw fun(content:any, content_type:string, status_code:number):serjaoResponse
+---@field send_json_string fun(string:string, status_code:number):serjaoResponse
+---@field send_html fun(html_code:string, status_code:number):serjaoResponse
 
 function strcmp(str1, str2)
     local len1 = #str1

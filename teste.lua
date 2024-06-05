@@ -5,11 +5,8 @@ set_server.nullterminator="casa"
 
 local function main_server(request)
 
-    if "/copy" == request.route then
-        return serjao
-    end
 
-    return serjao.send_file("teste.html", 200)
+    return "Deu certo"
 end
 
-serjao.initdesktop("chromium-browser",main_server)
+serjao.initdesktop(3000, 3002, "chromium", main_server)

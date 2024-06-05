@@ -1,23 +1,39 @@
 <html>
 <head>
     <script>
-        async function evia_resposta(){
-            let requisicao = await fetch("/copy")
-            let texto = await requisicao.text()
-            alert(texto)
-        }
+        async function soma(){
+            let num1 = parseInt(document.getElementById("num1").value)
+            let num2 = parseInt(document.getElementById("num2").value)
+            let json = JSON.stringify({"operacao": "soma", "num1": num1, "num2": num2})
+            let resposta = await fetch("/calcula", {method: "POST", body: json})
+            let status = resposta.status
+            if (status == 404){
+                let respostaalert = await resposta.text()
+                alert(respostaalert)
+                return
+            }
+            let respostaFinal = await resposta.json()
+            document.getElementById("result").textContent = "Resultado: " + respostaFinal.Resposta
+         }
     </script>
 </head>
 <body>
-<h1 style="color: blue">
-    Hello Word;
+<h1 style="color: blue, ">
+    Calculadora
 </h1>
 <p>
-    lskjgftyuikmnbvftyuiknbvftyujnbvftyujbg
+    Coloque os dois numeros e a opção que deseja.
 </p>
-<button onclick="evia_resposta()">
-    Resposta do servidor
+<input id="num1" placeholder="num1">
+<input id="num2" placeholder="num2">
+<button onclick="soma()">
+    soma
 </button>
+<button onclick="soma()">
+    menos
+</button>
+<h2 id="result">Resultado: </h2>
+
 </body>
 
 </html>

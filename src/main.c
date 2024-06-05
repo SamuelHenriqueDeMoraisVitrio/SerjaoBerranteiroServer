@@ -36,57 +36,65 @@ CwebHttpResponse *main_sever(CwebHttpRequest *request) {
 }
 
 LuaCEmbedResponse *initserver(LuaCEmbed *arg) {
-  unsigned short port = (unsigned short)lw.args.get_long(arg, 0);
+  unsigned short initport = (unsigned short)lw.args.get_long(arg, 0);
+  const unsigned short lastport = (unsigned short)lw.args.get_long(arg, 1);
+  unsigned short port = initport;
 
   if (lw.has_errors(arg)) {
     return lw.response.send_error("Uninformed arguments");
   }
 
   const char *functionvalue = "function(value) server_callback = value end";
-  lw.args.generate_arg_clojure_evalation(arg, 1, functionvalue);
+  lw.args.generate_arg_clojure_evalation(arg, 2, functionvalue);
 
   if (lw.has_errors(arg)) {
     return lw.response.send_error("Uninformed arguments");
   }
 
   bool errorInit = true;
-  short i = 3000;
-  do {
-    struct CwebServer serverTEMP = newCwebSever(port, main_sever);
-    serverTEMP.function_timeout = 100;
-    get_params_for_server_config(&serverTEMP);
+  for(unsigned short i = initport; i <= lastport; i++){
+      struct CwebServer serverTEMP = newCwebSever(i, main_sever);
+      serverTEMP.function_timeout = 100;
+      get_params_for_server_config(&serverTEMP);
 
-    errorInit = cb.server.start(&serverTEMP);
-    port = errorInit ? i : port;
-    i++;
-    if (i == 5000) {
-      break;
-    }
-  } while (errorInit);
-
+      errorInit = cb.server.start(&serverTEMP);
+      if(errorInit){
+          continue;
+      }
+      if(!errorInit){
+          port = i;
+          break;
+      }
+  }
+  if(errorInit){
+      return lw.response.send_error("Não foi possivel usar das portas %hd a %hd.", initport, lastport);
+  }
   return NULL;
 }
 
 
 LuaCEmbedResponse *initdesktop(LuaCEmbed *arg) {
 
-  char * starter = lw.args.get_str(arg,0);
+    unsigned short initport = (unsigned short)lw.args.get_long(arg, 0);
+    unsigned short lastport = (unsigned short)lw.args.get_long(arg, 1);
+    char * starter = lw.args.get_str(arg,2);
 
-  if (lw.has_errors(arg)) {
+
+    if (lw.has_errors(arg)) {
     return lw.response.send_error("Uninformed arguments");
-  }
+    }
 
-  const char *functionvalue = "function(value) server_callback = value end";
-  lw.args.generate_arg_clojure_evalation(arg, 1, functionvalue);
+    const char *functionvalue = "function(value) server_callback = value end";
+    lw.args.generate_arg_clojure_evalation(arg, 3, functionvalue);
 
 
-  if (lw.has_errors(arg)) {
+    if (lw.has_errors(arg)) {
     return lw.response.send_error("Uninformed arguments");
-  }
+    }
 
-  pid_t pid_server =0;
-  int port = 0;
-  for(int i = 3000; i < 3010; i++){
+    pid_t pid_server =0;
+    int port = 0;
+    for(int i = initport; i <= lastport; i++){
     pid_server = fork();
     if(pid_server==0){
       struct CwebServer serverTEMP = newCwebSever(i, main_sever);
@@ -95,7 +103,6 @@ LuaCEmbedResponse *initdesktop(LuaCEmbed *arg) {
       serverTEMP.single_process = true;
       serverTEMP.allow_cors = false;
       cb.server.start(&serverTEMP);
-      printf("deu exit %d\n",i);
       exit(0);
     }
 
@@ -108,17 +115,17 @@ LuaCEmbedResponse *initdesktop(LuaCEmbed *arg) {
       break;
     }
 
-  }
-  printf("server rodando em %d\n",port);
-  pid_t pid_browser = fork();
-  if(pid_browser == 0){
+    }
+    printf("server rodando em %d\n",port);
+    pid_t pid_browser = fork();
+    if(pid_browser == 0){
     char comand[200] ={0};
     sprintf(comand,"%s --app=http://localhost:%d/",starter,port);
     system(comand);
     exit(0);
-  }
+    }
 
-  while (true){
+    while (true){
     int status;
     pid_t brwoser_result = waitpid(pid_browser, &status, WNOHANG);
     if(brwoser_result != 0){
@@ -132,9 +139,9 @@ LuaCEmbedResponse *initdesktop(LuaCEmbed *arg) {
       kill(pid_browser,SIGKILL);
       break;
     }
-  }
-  printf("application terminated\n");
-  return NULL;
+    }
+    printf("application terminated\n");
+    return NULL;
 }
 
 int serjao_berranteiro_start_point(lua_State *state) {
