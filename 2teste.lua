@@ -26,7 +26,7 @@ local function main_server(request)
     end
 
     return "epa main Deu certo"
-
+---- chromium-browser   --app=http://youtube.com --window-size=300x300
 end
 
 serjao.initserver(3000, main_server)
