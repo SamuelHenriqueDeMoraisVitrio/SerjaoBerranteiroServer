@@ -75,42 +75,36 @@ LuaCEmbedResponse *read_json_from_table(LuaCEmbedTable *self, LuaCEmbed *args){
 
     cJSON *json = cb.request.read_cJSON(cbrq, max_size);
 
-    if(!json){
-        lw.response.send_error("content its not a valid json");
+    if(json ==NULL){
+       return  NULL;
     }
 
     if(cJSON_IsBool(json)){
         LuaCEmbedResponse *response =lw.response.send_bool((bool)json->valueint);
-        cJSON_Delete(json);
         return response;
     }
 
     else if(cJSON_IsNumber(json)){
         LuaCEmbedResponse *response = lw.response.send_double(cJSON_GetNumberValue(json));
-        cJSON_Delete(json);
         return response;
     }
 
     else if(cJSON_IsString(json)){
         LuaCEmbedResponse *response = lw.response.send_str(cJSON_GetStringValue(json));
-        cJSON_Delete(json);
         return response;
     }
 
     else if(cJSON_IsNull(json)){
-        cJSON_Delete(json);
         //char *nil_code = lw.globals.get_string(args, "private_lua_json_fluid_null_code");
         char *nil_code = lw.tables.get_string_prop(set_server, "nullterminator");
         return  lw.response.send_str(nil_code);
     }
     else if(cJSON_IsObject(json)){
         LuaCEmbedTable *created = Creat_table_from_json_object(args, json);
-        cJSON_Delete(json);
         return lw.response.send_table(created);
     }
     else if(cJSON_IsArray(json)){
         LuaCEmbedTable *created = private_lua_fluid_parse_array(args,json);
-        cJSON_Delete(json);
         return lw.response.send_table(created);
     }
     return NULL;
