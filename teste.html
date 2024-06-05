@@ -1,0 +1,23 @@
+<html>
+<head>
+    <script>
+        async function evia_resposta(){
+            let requisicao = await fetch("/copy")
+            let texto = await requisicao.text()
+            alert(texto)
+        }
+    </script>
+</head>
+<body>
+<h1 style="color: blue">
+    Hello Word;
+</h1>
+<p>
+    lskjgftyuikmnbvftyuiknbvftyujnbvftyujbg
+</p>
+<button onclick="evia_resposta()">
+    Resposta do servidor
+</button>
+</body>
+
+</html>
