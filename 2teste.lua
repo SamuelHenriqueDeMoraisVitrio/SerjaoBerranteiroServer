@@ -16,21 +16,16 @@ local function main_server(request)
 
     if request.route == "/copy" then
         local outra = request.read_json_body(100000000)
-        if not outra then
+        if outra == nil then
             print("Error in copy to outra.\n")
+            return "Deu errado"
         end
+
         print(fluid.dumps_to_string(outra, true))
-        return "opa copy"
+        return "opa copy Deu certo"
     end
 
---
---    if outra == nil then
---        return "Body não foi gravado em 'outra'"
---    end
-
---    print("valor de name: " .. outra.name)
-
-    return "epa main"
+    return "epa main Deu certo"
 
 end
 

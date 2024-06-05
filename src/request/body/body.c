@@ -75,7 +75,7 @@ LuaCEmbedResponse *read_json_from_table(LuaCEmbedTable *self, LuaCEmbed *args){
 
     cJSON *json = cb.request.read_cJSON(cbrq, max_size);
 
-    if(json ==NULL){
+    if(!json){
        return  NULL;
     }
 
