@@ -84,14 +84,16 @@ LuaCEmbedResponse * render_component(LuaCEmbedTable *self,LuaCEmbed *args){
 
 
 LuaCEmbedResponse * create_fragment(LuaCEmbed *args){
+
     LuaCEmbedTable * self = lw.tables.new_anonymous_table(args);
     lw.tables.set_method(self,"render",render_component);
     lw.tables.set_string_prop(self,"type","component");
+
     LuaCEmbedTable *iternal_elements = lw.tables.new_anonymous_table(args);
     lw.tables.set_sub_table_prop(self,"internal_elements",iternal_elements);
     int total_args = lw.args.size(args);
 
-    for(int i =1; i  <total_args;i++){
+    for(int i =0; i  <total_args;i++){
         lw.args.generate_arg_clojure_evalation(args,i,"function (value) current_arg = value end ");
         lw.tables.append_evaluation(iternal_elements,"current_arg");
     }
