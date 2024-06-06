@@ -4,6 +4,7 @@ HtmlorError  render_component_raw(LuaCEmbedTable *self){
     HtmlorError final_response = {0};
 
 
+
     if(lw.tables.get_type_prop(self,"type") != lw.types.STRING){
         final_response.error = lw.response.send_error("invalid type");
         return final_response;
@@ -13,6 +14,8 @@ HtmlorError  render_component_raw(LuaCEmbedTable *self){
         final_response.error = lw.response.send_error("invalid type");
         return final_response;
     }
+
+
 
     LuaCEmbedTable *internal_elements = lw.tables.get_sub_table_prop(self,"internal_elements");
     int size = lw.tables.get_size(internal_elements);
