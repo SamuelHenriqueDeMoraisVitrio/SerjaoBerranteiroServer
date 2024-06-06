@@ -85,8 +85,7 @@ LuaCEmbedResponse * render_component(LuaCEmbedTable *self,LuaCEmbed *args){
     return  response;
 }
 
-
-LuaCEmbedResponse * create_fragment(LuaCEmbed *args){
+LuaCEmbedTable * raw_create_fragment(LuaCEmbed *args){
 
     LuaCEmbedTable * self = lw.tables.new_anonymous_table(args);
     lw.tables.set_method(self,"render",render_component);
@@ -100,9 +99,15 @@ LuaCEmbedResponse * create_fragment(LuaCEmbed *args){
         lw.args.generate_arg_clojure_evalation(args,i,"function (value) current_arg = value end ");
         lw.tables.append_evaluation(iternal_elements,"current_arg");
     }
-    return lw.response.send_table(self);
+    return self;
 
 }
+LuaCEmbedResponse * create_fragment(LuaCEmbed *args){
+
+    LuaCEmbedTable *fragment = raw_create_fragment(args);
+    return lw.response.send_table(fragment);
+}
+
 
 LuaCEmbedResponse * create_component(LuaCEmbed *args){
     char *tag = lw.args.get_str(args,0);

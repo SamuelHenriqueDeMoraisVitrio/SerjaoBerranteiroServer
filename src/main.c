@@ -158,8 +158,13 @@ int serjao_berranteiro_start_point(lua_State *state) {
   lw.add_callback(l, "send_text", send_text);
   lw.add_callback(l,"component",create_component);
   lw.add_callback(l,"fragment",create_fragment);
-
   
+  lw.add_callback(l,"html",create_html);
+  lw.add_callback(l,"body",create_body);
+  lw.add_callback(l,"h1",create_h1);
+
+
+
 
 
   creat_table_for_config_server();
