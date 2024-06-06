@@ -1,6 +1,6 @@
 
 
-LuaCEmbedResponse * create_html(LuaCEmbed *args){
+LuaCEmbedResponse *create_html(LuaCEmbed *args){
     LuaCEmbedTable *fragment = raw_create_fragment(args);
     lw.tables.set_string_prop(fragment,"tag","html");
     return lw.response.send_table(fragment);

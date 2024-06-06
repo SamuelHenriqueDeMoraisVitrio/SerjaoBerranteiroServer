@@ -2,6 +2,7 @@ local serjao = require("serjao_berranteiro/serjao_berranteiro")
 
 local component =html(
     head(
+            serjao.fragment("meta"),
             title("Não sei")
     ),
 
