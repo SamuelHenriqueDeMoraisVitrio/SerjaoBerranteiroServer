@@ -119,7 +119,7 @@ LuaCEmbedResponse *initdesktop(LuaCEmbed *arg) {
     printf("server rodando em %d\n",port);
     pid_t pid_browser = fork();
     if(pid_browser == 0){
-    char comand[200] ={0};
+    char comand[200] = {'\0'};
     sprintf(comand,"%s --app=http://localhost:%d/",starter,port);
     system(comand);
     exit(0);
