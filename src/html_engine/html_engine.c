@@ -47,10 +47,11 @@ HtmlorError  render_component_raw(LuaCEmbedTable *self){
         if(element_type == lw.types.FUNCTION){
             char *value = lw.get_string_evaluation(
                 self->main_object,
-                "render_callback_result = %s[%d]()",
-                    self->global_name,
+                "%s[%d]()",
+                    internal_elements->global_name,
                     i+1
                 );
+
             if(lw.has_errors(self->main_object)){
                 CTextStack_free(stack);
                 char *error_msg = lw.get_error_message(self->main_object);
