@@ -30,5 +30,5 @@ void creat_table_for_config_server() {
   lw.tables.set_long_prop(set_server, "client_timeout", 5);
   lw.tables.set_long_prop(set_server, "max_queue", 100);
   lw.tables.set_long_prop(set_server, "max_request", 1000);
-  lw.tables.set_string_prop(set_server,"nullterminator","null");
+  lw.tables.set_string_prop(set_server,"nullterminator","NULL");
 }

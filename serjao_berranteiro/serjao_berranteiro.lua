@@ -7,6 +7,7 @@
 ---@field client_timeout number
 ---@field max_queue number
 ---@field max_request number
+---@field nullterminator string
 
 ---@class param
 ---@field key string
@@ -29,7 +30,7 @@
 
 ---@class serjaoBerranteiro
 ---@field initserver fun(initport:number, lastport:number, main_server:fun(request:request))
----@field initdesktop fun(initport:number, lastport:number, main_server:fun(request:request))
+---@field initdesktop fun(initport:number, lastport:number, server:string, main_server:fun(request:request))
 ---@field send_text fun(text:string, status_code:number):serjaoResponse
 ---@field send_file fun(route_file:string, status_code:number, content_type:string|nil):serjaoResponse
 ---@field send_json fun(data:any, status_code:number):serjaoResponse
