@@ -162,7 +162,6 @@ int serjao_berranteiro_start_point(lua_State *state) {
     lw.add_global_callback(l,"html",create_html);
     lw.add_global_callback(l,"body",create_body);
     lw.add_global_callback(l, "head", create_head);
-    //lw.add_global_callback(l,"h1",create_h1);
     lw.add_global_callback(l, "a", create_a);
     lw.add_global_callback(l, "abbr", create_abbr);
     lw.add_global_callback(l, "address", create_address);
