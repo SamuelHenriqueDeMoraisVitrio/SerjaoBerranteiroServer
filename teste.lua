@@ -1,17 +1,16 @@
 local serjao = require("serjao_berranteiro/serjao_berranteiro")
 
-local component =html(
-    head(
-            serjao.fragment("meta"),
-            title("Não sei")
-    ),
+local function teste()
 
-    body(
-        h1({id="teste",class="aaaaaa",style={color="blue"}},"dddd"),
-        serjao.component("h3","aaa")
-    )
+        local pagina  =html(
+       
+                body(
+                  h2({id="teste",style={color="red"}},"aaa"),      
+                  h1({style={color="blue"}},"eai parsa")
+                )
+        )
+        return serjao.send_html(pagina,200)
 
+end
 
-)
-
-print(component.render())
+serjao.initserver(3000,3001,teste)
