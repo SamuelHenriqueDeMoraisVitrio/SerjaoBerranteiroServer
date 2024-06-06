@@ -1,12 +1,14 @@
 
 
 typedef  struct  HtmlorError{
-    char *html;
+    char *text;
     LuaCEmbedResponse *error;
-}HtmlorError;
+}TextOrError;
+
+bool its_a_component(LuaCEmbedTable *element);
 
 
-HtmlorError render_component_raw(LuaCEmbedTable *self);
+TextOrError render_component_raw(LuaCEmbedTable *self);
 
 LuaCEmbedResponse * render_component(LuaCEmbedTable *self,LuaCEmbed *args);
 

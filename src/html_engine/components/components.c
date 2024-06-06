@@ -1,21 +1,27 @@
+bool its_a_component(LuaCEmbedTable *element){
 
-HtmlorError  render_component_raw(LuaCEmbedTable *self){
-
-    HtmlorError final_response = {0};
-
-
-
-    if(lw.tables.get_type_prop(self,"type") != lw.types.STRING){
-        final_response.error = lw.response.send_error("invalid type");
-        return final_response;
-    }
-    char * type = lw.tables.get_string_prop(self,"type");
-    if(strcmp(type,"component") != 0){
-        final_response.error = lw.response.send_error("invalid type");
-        return final_response;
+    int serjao_type_prop = lw.tables.get_type_prop(element,"serjao_type");
+    if(serjao_type_prop != lw.types.STRING){
+        return  false;
     }
 
+    char * type = lw.tables.get_string_prop(element,"serjao_type");
 
+    if(strcmp(type,"component") == 0){
+       return  true;
+    }
+    return  false;
+
+}
+
+
+TextOrError  render_component_raw(LuaCEmbedTable *self){
+
+    TextOrError final_response = {0};
+
+    if(!its_a_component(self)){
+        return  final_response;
+    }
 
     LuaCEmbedTable *internal_elements = lw.tables.get_sub_table_prop(self,"internal_elements");
     int size = lw.tables.get_size(internal_elements);
@@ -26,7 +32,14 @@ HtmlorError  render_component_raw(LuaCEmbedTable *self){
         tag = lw.tables.get_string_prop(self,"tag");
     }
     if(tag != NULL){
-        ctext_open(stack,tag);
+        TextOrError props  = render_props(internal_elements);
+        if(props.error){
+            CTextStack_free(stack);
+            return  props;
+        }
+
+        CTextStack_$open(stack,tag,"%s",props.text);
+        free(props.text);
     }
 
     for(int i = 0; i < size;i++){
@@ -38,13 +51,16 @@ HtmlorError  render_component_raw(LuaCEmbedTable *self){
         }
         if(element_type == lw.types.TABLE){
             LuaCEmbedTable *internal = lw.tables.get_sub_table_by_index(internal_elements,i);
-            HtmlorError internal_response = render_component_raw(internal);
+            TextOrError internal_response = render_component_raw(internal);
             if(internal_response.error){
                 CTextStack_free(stack);
                 return  internal_response;
             }
-            CTextStack_segment_format(stack,"%s",internal_response.html);
-            free(internal_response.html);
+            if(internal_response.text){
+                CTextStack_segment_format(stack,"%s",internal_response.text);
+                free(internal_response.text);
+            }
+
         }
 
         if(element_type == lw.types.FUNCTION){
@@ -68,20 +84,20 @@ HtmlorError  render_component_raw(LuaCEmbedTable *self){
         ctext_close(stack,tag);
 
     }
-    final_response.html = CTextStack_self_transform_in_string_and_self_clear(stack);
+    final_response.text = CTextStack_self_transform_in_string_and_self_clear(stack);
     return final_response;
 }
 
 
 LuaCEmbedResponse * render_component(LuaCEmbedTable *self,LuaCEmbed *args){
 
-    HtmlorError value  = render_component_raw(self);
+    TextOrError value  = render_component_raw(self);
     if(value.error){
         return  value.error;
     }
 
-    LuaCEmbedResponse *response = lw.response.send_str(value.html);
-    free(value.html);
+    LuaCEmbedResponse *response = lw.response.send_str(value.text);
+    free(value.text);
     return  response;
 }
 
@@ -89,7 +105,7 @@ LuaCEmbedTable * raw_create_fragment(LuaCEmbed *args){
 
     LuaCEmbedTable * self = lw.tables.new_anonymous_table(args);
     lw.tables.set_method(self,"render",render_component);
-    lw.tables.set_string_prop(self,"type","component");
+    lw.tables.set_string_prop(self,"serjao_type","component");
 
     LuaCEmbedTable *iternal_elements = lw.tables.new_anonymous_table(args);
     lw.tables.set_sub_table_prop(self,"internal_elements",iternal_elements);
@@ -117,7 +133,7 @@ LuaCEmbedResponse * create_component(LuaCEmbed *args){
     }
     LuaCEmbedTable * self = lw.tables.new_anonymous_table(args);
     lw.tables.set_method(self,"render",render_component);
-    lw.tables.set_string_prop(self,"type","component");
+    lw.tables.set_string_prop(self,"serjao_type","component");
 
     lw.tables.set_string_prop(self,"tag",tag);
 
