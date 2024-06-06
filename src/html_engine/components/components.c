@@ -101,9 +101,9 @@ LuaCEmbedResponse * render_component(LuaCEmbedTable *self,LuaCEmbed *args){
     return  response;
 }
 
-LuaCEmbedTable * raw_create_fragment(LuaCEmbed *args){
+LuaCEmbedTable *raw_create_fragment(LuaCEmbed *args){
 
-    LuaCEmbedTable * self = lw.tables.new_anonymous_table(args);
+    LuaCEmbedTable *self = lw.tables.new_anonymous_table(args);
     lw.tables.set_method(self,"render",render_component);
     lw.tables.set_string_prop(self,"serjao_type","component");
 
