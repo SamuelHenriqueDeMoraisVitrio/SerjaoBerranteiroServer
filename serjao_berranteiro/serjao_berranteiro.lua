@@ -19,7 +19,7 @@
 ---@field key string
 ---@field value string
 
----@class request
+---@class Request
 ---@field url string
 ---@field method string
 ---@field route string
@@ -32,7 +32,7 @@
 
 
 ---@class serjaoBerranteiro
----@field initserver fun(initport:number, lastport:number, main_server:fun(request:request))
+---@field initserver fun(initport:number, lastport:number, main_server:fun(request:Request))
 ---@field initdesktop fun(initport:number, lastport:number, server:string, main_server:fun(request:request))
 ---@field send_text fun(text:string, status_code:number):serjaoResponse
 ---@field send_file fun(route_file:string, status_code:number, content_type:string|nil):serjaoResponse
