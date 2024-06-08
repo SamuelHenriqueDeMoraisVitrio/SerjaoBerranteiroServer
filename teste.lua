@@ -14,4 +14,4 @@ local function teste(request)
 
 end
 
-serjao.initserver(3000,4000,teste)
+serjao.initdesktop("chromium-browser",teste)

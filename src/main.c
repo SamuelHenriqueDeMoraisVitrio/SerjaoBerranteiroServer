@@ -13,43 +13,29 @@ CwebHttpResponse *main_sever(CwebHttpRequest *request) {
 
   int response_type = lw.globals.get_type(l, "serverresponse");
 
-  bool its_a_single_process = lw.tables.get_bool_prop(set_server, "single_process");
 
   if (response_type == lw.types.STRING) {
-    char *value = lw.globals.get_string(l, "serverresponse");
-    if(its_a_single_process == false){
-        lua_close(l->state);
-    }
-    return cb.response.send_text(value, 200);
+     char *value = lw.globals.get_string(l, "serverresponse");
+     return cb.response.send_text(value, 200);
   }
 
   if (response_type == lw.types.TABLE) {
-    LuaCEmbedTable *table = lw.globals.get_table(l, "serverresponse");
+     LuaCEmbedTable *table = lw.globals.get_table(l, "serverresponse");
+     lw.tables.set_bool_prop(table, "its_a_reference", true);
+     CwebHttpResponse *response_cb = (CwebHttpResponse *)lw.tables.get_long_prop(table, "response_pointer");
 
-    lw.tables.set_bool_prop(table, "its_a_reference", true);
-    CwebHttpResponse *response_cb = (CwebHttpResponse *)lw.tables.get_long_prop(table, "response_pointer");
-
-    if (lw.has_errors(l)) {
+     if (lw.has_errors(l)) {
       char *error = lw.get_error_message(l);
       printf("%s\n", error);
+      lw.clear_errors(l);
 
-        if(!its_a_single_process){
-            lua_close(l->state);
-        }
       return cb.response.send_text("Interno server error", 500);
     }
 
-    if(!its_a_single_process){
-        lua_close(l->state);
-    }
 
     return response_cb;
   }
 
-
-  if(!its_a_single_process){
-    lua_close(l->state);
-  }
   return NULL;
 }
 
@@ -92,9 +78,7 @@ LuaCEmbedResponse *initserver(LuaCEmbed *arg) {
 
 LuaCEmbedResponse *initdesktop(LuaCEmbed *arg) {
 
-    unsigned short initport = (unsigned short)lw.args.get_long(arg, 0);
-    unsigned short lastport = (unsigned short)lw.args.get_long(arg, 1);
-    char * starter = lw.args.get_str(arg,2);
+    char * starter = lw.args.get_str(arg,0);
 
 
     if (lw.has_errors(arg)) {
@@ -102,7 +86,7 @@ LuaCEmbedResponse *initdesktop(LuaCEmbed *arg) {
     }
 
     const char *functionvalue = "function(value) server_callback = value end";
-    lw.args.generate_arg_clojure_evalation(arg, 3, functionvalue);
+    lw.args.generate_arg_clojure_evalation(arg, 1, functionvalue);
 
 
     if (lw.has_errors(arg)) {
@@ -111,7 +95,7 @@ LuaCEmbedResponse *initdesktop(LuaCEmbed *arg) {
 
     pid_t pid_server =0;
     int port = 0;
-    for(int i = initport; i <= lastport; i++){
+    for(int i = 3000; i <= 4000; i++){
     pid_server = fork();
     if(pid_server==0){
       struct CwebServer serverTEMP = newCwebSever(i, main_sever);
