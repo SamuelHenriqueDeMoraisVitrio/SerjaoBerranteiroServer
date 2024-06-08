@@ -13,6 +13,21 @@ Bringing many functionalities such as the choice of a single process or multiple
 ## Notices
 
 - This is still the beta version, so it may contain several "bugs".
+- To make it easier to use, put this line "---@param request Request" in your code before the server loop function.
+```
+local serjao = require("serjao_berranteiro/serjao_berranteiro")
+
+
+set_server.single_process = true
+
+
+---@param request Request
+local function teste(request)
+      return serjao.send_text("aaa",200)
+end
+
+serjao.initserver(3000,4000,teste);
+```
 
 ***
 
@@ -28,7 +43,7 @@ Bringing many functionalities such as the choice of a single process or multiple
 
 Go to the repository [SerjaoBerranteiroServer](https://github.com/SamuelHenriqueDeMoraisVitrio/SerjaoBerranteiroServer) and download the latest .zip file posted in [Realeses/Lançamentos](https://github.com/SamuelHenriqueDeMoraisVitrio/SerjaoBerranteiroServer/releases).
 
-Place the unzipped file inside the directory where your .lua file is located. After that, finish by calling a require within your Lua code.
+Place the unzipped file inside the directory where your .lua file is located. After that, finish by calling a requirement within your Lua code.
 
 ```
 local serjao = require("Path to serjao_berranteiro directory/serjao_berranteiro")
@@ -413,7 +428,7 @@ serjao.initserver(3000, 3003, main_server)
 
 ### single_process
 
-This config determines whether the server will be single or multi-process.
+This config determines whether the server will be single or multiprocess.
 
 ```
 local serjao = require("serjao_berranteiro/serjao_berranteiro")
