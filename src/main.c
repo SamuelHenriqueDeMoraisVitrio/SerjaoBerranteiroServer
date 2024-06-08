@@ -13,8 +13,13 @@ CwebHttpResponse *main_sever(CwebHttpRequest *request) {
 
   int response_type = lw.globals.get_type(l, "serverresponse");
 
+  bool its_a_single_process = lw.tables.get_bool_prop(set_server, "single_process");
+
   if (response_type == lw.types.STRING) {
     char *value = lw.globals.get_string(l, "serverresponse");
+    if(its_a_single_process == false){
+        lua_close(l->state);
+    }
     return cb.response.send_text(value, 200);
   }
 
@@ -27,12 +32,24 @@ CwebHttpResponse *main_sever(CwebHttpRequest *request) {
     if (lw.has_errors(l)) {
       char *error = lw.get_error_message(l);
       printf("%s\n", error);
+
+        if(!its_a_single_process){
+            lua_close(l->state);
+        }
       return cb.response.send_text("Interno server error", 500);
+    }
+
+    if(!its_a_single_process){
+        lua_close(l->state);
     }
 
     return response_cb;
   }
 
+
+  if(!its_a_single_process){
+    lua_close(l->state);
+  }
   return NULL;
 }
 

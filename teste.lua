@@ -1,12 +1,6 @@
 local serjao = require("serjao_berranteiro/serjao_berranteiro")
 
-set_server.single_process = true
-
 local function teste(request)
-
-        if request.route == "/kill" then
-                serjao.kill()
-        end
 
         local pagina  =html(
                 body(
