@@ -17,4 +17,4 @@ local function teste(request)
       return serjao.send_html(html, 200)
 end
 
-serjao.initserver(3000,4000,teste);
+serjao.server(3000,4000,teste);

@@ -1,0 +1,2 @@
+
+LuaCEmbedResponse *initdesktop(LuaCEmbed *arg);

@@ -1,0 +1,2 @@
+
+LuaCEmbedResponse *initserver(LuaCEmbed *arg);

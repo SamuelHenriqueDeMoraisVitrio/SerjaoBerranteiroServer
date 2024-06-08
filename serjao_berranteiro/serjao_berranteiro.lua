@@ -32,8 +32,8 @@
 
 
 ---@class serjaoBerranteiro
----@field initserver fun(initport:number, lastport:number, main_server:fun(request:Request))
----@field initdesktop fun(initport:number, lastport:number, server:string, main_server:fun(request:request))
+---@field server fun(initport:number, lastport:number, main_server:fun(request:Request))
+---@field desktop fun(initport:number, lastport:number, server:string, main_server:fun(request:request))
 ---@field send_text fun(text:string, status_code:number):serjaoResponse
 ---@field send_file fun(route_file:string, status_code:number, content_type:string|nil):serjaoResponse
 ---@field send_json fun(data:any, status_code:number):serjaoResponse

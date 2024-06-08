@@ -1,2 +1,2 @@
 
-void commands();
+void commandsHTML();

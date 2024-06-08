@@ -1,5 +1,5 @@
 
-void commands(){
+void commandsHTML(){
 
     lw.add_global_callback(l,"html",create_html);
     lw.add_global_callback(l,"body",create_body);
