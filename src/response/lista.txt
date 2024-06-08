@@ -1,0 +1,10 @@
+
+resolver problemas de erros de single process
+
+documentar kill
+
+portas padrão é 200 em responses
+
+auto_complete com erro
+
+multi_procees limpar memoria dos processos
