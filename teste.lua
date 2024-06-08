@@ -8,7 +8,7 @@ local function teste(request)
                 serjao.kill()
         end
 
-        return serjao.send_text("Hello Word", 200)
+        return serjao.send_text("html", 200)
 
 end
 

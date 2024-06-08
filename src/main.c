@@ -21,8 +21,9 @@ CwebHttpResponse *main_sever(CwebHttpRequest *request) {
   if (response_type == lw.types.TABLE) {
     LuaCEmbedTable *table = lw.globals.get_table(l, "serverresponse");
 
-    CwebHttpResponse *response_cb =
-        (CwebHttpResponse *)lw.tables.get_long_prop(table, "response_pointer");
+    lw.tables.set_bool_prop(table, "its_a_reference", true);
+    CwebHttpResponse *response_cb = (CwebHttpResponse *)lw.tables.get_long_prop(table, "response_pointer");
+
     if (lw.has_errors(l)) {
       char *error = lw.get_error_message(l);
       printf("%s\n", error);
