@@ -1,4 +1,9 @@
 # Serjão Berranteiro Server
+
+## Languages
+
+[Português]()
+
 ## A framework to Develop APIs and Desktop Apps
 
 It is a library for the Lua language aiming to be easy and intuitive, but without losing the freedom to set up your server the way you prefer.

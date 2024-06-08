@@ -1,16 +1,14 @@
 local serjao = require("serjao_berranteiro/serjao_berranteiro")
 
-local function teste()
+set_server.single_process = true
 
-        local pagina  =html(
-                body(
-                  h2({id="teste",style={color="yellow"}},"aaa"),
-                  h1({style={color="blue"}},"eai parsa")
-                ),
-                serjao.component("h4"),
-                serjao.fragment("<area>")
-        )
-        return serjao.send_html(pagina,200)
+local function teste(request)
+
+        if request.route == "/kill" then
+                serjao.kill()
+        end
+
+        return serjao.send_text("Hello Word", 200)
 
 end
 

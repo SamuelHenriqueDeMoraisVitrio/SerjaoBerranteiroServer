@@ -3,23 +3,19 @@
 CwebNamespace cb;
 
 CwebHttpResponse *main_sever(CwebHttpRequest *request ){
-    unsigned char *read_content_cb = cb.request.read_content(request, 20000);
-    CwebDict *query_paramns = request->params;
-    for(int i = 0; i < query_paramns->size; i++){
-        CwebKeyVal *key_val = query_paramns->keys_vals[i];
-        char *key = key_val->key;
-        char *value = key_val->value;
-        printf("%s : %s\n", key, value);
+
+
+    if(strcmp(request->route,"/kill") == 0){
+        cweb_kill_single_process_server();
     }
-    printf("-----------------------------------------------\n");
-    printf("\t%s\n\n", read_content_cb);
-    return cb.response.send_text("Url readed", 200);
+    return cb.response.send_text("Working", 200);
 
 }
 
 int main(int argc, char *argv[]){
     cb = newCwebNamespace();
-    CwebServer server = newCwebSever(5000, main_sever);
+    CwebServer server = newCwebSever(3001, main_sever);
+    server.single_process = true;
     cb.server.start(&server);
     return 0;
 }

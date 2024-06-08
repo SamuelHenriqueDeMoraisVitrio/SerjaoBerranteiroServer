@@ -61,10 +61,9 @@ LuaCEmbedResponse *initserver(LuaCEmbed *arg) {
       if(errorInit){
           continue;
       }
-      if(!errorInit){
-          port = i;
-          break;
-      }
+
+      port = i;
+      break;
   }
   if(errorInit){
       return lw.response.send_error("Não foi possivel usar das portas %hd a %hd.", initport, lastport);
@@ -158,6 +157,7 @@ int serjao_berranteiro_start_point(lua_State *state) {
     lw.add_callback(l, "send_text", send_text);
     lw.add_callback(l,"component",create_component);
     lw.add_callback(l,"fragment",create_fragment);
+    lw.add_callback(l, "kill", kill_server);
 
     lw.add_global_callback(l,"html",create_html);
     lw.add_global_callback(l,"body",create_body);
