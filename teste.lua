@@ -9,7 +9,9 @@ local function teste(request)
       local h = request.header[1]
 
       local html = html(
-              head(),
+              head(
+                      title("youtube")
+              ),
               body(h1("Hello Word")
               )
       )

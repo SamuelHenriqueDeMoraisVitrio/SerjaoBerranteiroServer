@@ -420,7 +420,7 @@
 
 ---@class serjaoBerranteiro
 ---@field server fun(initport:number, lastport:number, main_server:fun(request:Request))
----@field desktop fun(server:string, main_server:fun(request:request))
+---@field desktop fun(server:string, main_server:fun(request:request), x_axis:number|nil, y_axis:number|nil)
 ---@field send_text fun(text:string, status_code:number|nil):serjaoResponse
 ---@field send_file fun(route_file:string, status_code:number|nil, content_type:string|nil):serjaoResponse
 ---@field send_json fun(data:any, status_code:number|nil):serjaoResponse

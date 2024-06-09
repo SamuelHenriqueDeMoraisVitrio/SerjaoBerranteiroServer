@@ -17,9 +17,32 @@ LuaCEmbedResponse *initdesktop(LuaCEmbed *arg) {
         return lw.response.send_error("Uninformed arguments");
     }
 
+
+    unsigned int windows_x = 800;
+    unsigned int windows_y = 400;
+    bool no_parans_window = (lw.args.get_type(arg, 2) != lw.types.NUMBER && lw.args.get_type(arg, 3) != lw.types.NUMBER);
+
+    if(lw.args.get_type(arg, 2) == lw.types.NUMBER){
+        windows_x = lw.args.get_long(arg, 2);
+    }
+    if(lw.args.get_type(arg, 3) == lw.types.NUMBER){
+        windows_y = lw.args.get_long(arg, 3);
+    }
+    if(lw.args.get_type(arg, 2) == lw.types.NUMBER && lw.args.get_type(arg, 3) != lw.types.NUMBER){
+        windows_y = windows_x;
+    }
+
+    if(lw.has_errors(arg)){
+        char *erro_msg = lw.get_error_message(arg);
+        return lw.response.send_error(erro_msg);
+    }
+
+    char config_window[70] = {'\0'};
+    sprintf(config_window, "--window-size=%d,%d", windows_x, windows_y);
+
     pid_t pid_server =0;
     int port = 0;
-    for(int i = 3000; i <= 4000; i++){
+    for(int i = 3000; i <= 5000; i++){
         pid_server = fork();
         if(pid_server==0){
             struct CwebServer serverTEMP = newCwebSever(i, main_sever);
@@ -45,7 +68,7 @@ LuaCEmbedResponse *initdesktop(LuaCEmbed *arg) {
     pid_t pid_browser = fork();
     if(pid_browser == 0){
         char comand[200] = {'\0'};
-        sprintf(comand,"%s --app=http://localhost:%d/",starter,port);
+        sprintf(comand,"%s %s --app=http://localhost:%d/", starter, no_parans_window ? "--start-maximized" : config_window, port);
         system(comand);
         exit(0);
     }
