@@ -16,3 +16,4 @@
 - [x] Colocar funções da engine html no autocomplete
 - [x] Colocar opção de resolução em “desktop”
 - [x] Opção de escolher o título em “desktop”
+- [ ] Vazamento no "desktop"
