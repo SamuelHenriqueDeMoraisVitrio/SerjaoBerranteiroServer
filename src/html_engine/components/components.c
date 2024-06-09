@@ -89,7 +89,7 @@ TextOrError  render_component_raw(LuaCEmbedTable *self){
 }
 
 
-LuaCEmbedResponse * render_component(LuaCEmbedTable *self,LuaCEmbed *args){
+LuaCEmbedResponse *render_component(LuaCEmbedTable *self,LuaCEmbed *args){
 
     TextOrError value  = render_component_raw(self);
     if(value.error){

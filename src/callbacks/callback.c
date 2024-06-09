@@ -11,5 +11,4 @@ void calbback_main(){
     lw.add_callback(l,"component",create_component);
     lw.add_callback(l,"fragment",create_fragment);
     lw.add_callback(l, "kill", kill_server);
-
 }
