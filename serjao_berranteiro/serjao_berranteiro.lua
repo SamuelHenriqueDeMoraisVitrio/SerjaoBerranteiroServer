@@ -420,13 +420,13 @@
 
 ---@class serjaoBerranteiro
 ---@field server fun(initport:number, lastport:number, main_server:fun(request:Request))
----@field desktop fun(initport:number, lastport:number, server:string, main_server:fun(request:request))
----@field send_text fun(text:string, status_code:number):serjaoResponse
----@field send_file fun(route_file:string, status_code:number, content_type:string|nil):serjaoResponse
----@field send_json fun(data:any, status_code:number):serjaoResponse
----@field send_raw fun(content:any, content_type:string, status_code:number):serjaoResponse
----@field send_json_string fun(string:string, status_code:number):serjaoResponse
----@field send_html fun(html_code:string, status_code:number):serjaoResponse
+---@field desktop fun(server:string, main_server:fun(request:request))
+---@field send_text fun(text:string, status_code:number|nil):serjaoResponse
+---@field send_file fun(route_file:string, status_code:number|nil, content_type:string|nil):serjaoResponse
+---@field send_json fun(data:any, status_code:number|nil):serjaoResponse
+---@field send_raw fun(content:any, content_type:string, status_code:number|nil):serjaoResponse
+---@field send_json_string fun(string:string, status_code:number|nil):serjaoResponse
+---@field send_html fun(html_code:string, status_code:number|nil):serjaoResponse
 ---@field component fun(...: string):table
 ---@field fragment fun(...: string):table
 ---@field kill fun()

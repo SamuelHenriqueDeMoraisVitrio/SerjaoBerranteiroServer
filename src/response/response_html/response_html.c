@@ -23,7 +23,10 @@ LuaCEmbedResponse *send_HTML(LuaCEmbed *args){
         html_code = lw.args.get_str(args, 0);
     }
 
-    short status_code = lw.args.get_long(args, 1);
+    short status_code = 200;
+    if(lw.args.get_type(args, 1) == lw.types.NUMBER){
+        status_code = lw.args.get_long(args, 1);
+    }
 
     if(lw.has_errors(args)){
         const char *msg_error = lw.get_error_message(args);

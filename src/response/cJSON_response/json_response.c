@@ -9,7 +9,7 @@ bool lua_json_fluid_table_is_object(LuaCEmbedTable *table) {
   }
   return true;
 }
-
+//-------------
 cJSON *lua_fluid_json_dump_to_cJSON_array(LuaCEmbedTable *table) {
   long size = lw.tables.get_size(table);
   cJSON *created_array = cJSON_CreateArray();
@@ -46,7 +46,7 @@ cJSON *lua_fluid_json_dump_to_cJSON_array(LuaCEmbedTable *table) {
   }
   return created_array;
 }
-
+//-----------
 cJSON *lua_fluid_json_dump_to_cJSON_object(LuaCEmbedTable *table) {
   long size = lw.tables.get_size(table);
   cJSON *created_object = cJSON_CreateObject();
@@ -81,7 +81,7 @@ cJSON *lua_fluid_json_dump_to_cJSON_object(LuaCEmbedTable *table) {
   }
   return created_object;
 }
-
+//------
 cJSON *lua_fluid_json_dump_table_to_cJSON(LuaCEmbedTable *table) {
 
   if (lua_json_fluid_table_is_object(table)) {
@@ -90,13 +90,17 @@ cJSON *lua_fluid_json_dump_table_to_cJSON(LuaCEmbedTable *table) {
   }
   return lua_fluid_json_dump_to_cJSON_array(table);
 }
-
+//-----
 LuaCEmbedResponse *send_json(LuaCEmbed *args) {
   cJSON *result = NULL;
 
 
   const int element_type = lw.args.get_type(args, 0);
-  const short status_code = lw.args.get_long(args, 1);
+
+  unsigned short status_code = 200;
+  if(lw.args.get_type(args, 1) == lw.types.NUMBER){
+      status_code = lw.args.get_long(args, 1);
+  }
 
   if (element_type == lw.types.STRING) {
     char *value = lw.args.get_str(args, 0);
@@ -139,10 +143,14 @@ LuaCEmbedResponse *send_json(LuaCEmbed *args) {
   lw.tables.set_method(table, "__gc", clear_memory_response);
   return lw.response.send_table(table);
 }
-
+//------
 LuaCEmbedResponse *send_json_string(LuaCEmbed *args) {
   const char *json_string = lw.args.get_str(args, 0);
-  const short status_code = lw.args.get_long(args, 1);
+
+  unsigned short status_code = 200;
+  if(lw.args.get_type(args, 1) == lw.types.NUMBER){
+      status_code = lw.args.get_long(args, 1);
+  }
 
   if (lw.has_errors(args)) {
     const char *msg_error = lw.get_error_message(args);

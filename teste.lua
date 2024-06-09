@@ -6,18 +6,17 @@ set_server.single_process = true
 ---@param request Request
 local function teste(request)
 
-      local html = html(serjao.fragment("<!DOCTYPE html>"),
-              head(serjao.fragment("<title>Hello Word</title>")),
-              body(h1("hello Word"),
-                head("Hello Word"),
-                h2("Viz maria")
+      local h = request.header[1]
+
+      local html = html(
+              head(),
+              body(h1("Hello Word")
               )
       )
 
-      print(type(html)) -- table
-      print(html.render())
+      return serjao.send_html(html, 400)
 
-      return serjao.send_html(html, 200)
 end
 
-serjao.server(3000,4000,teste);
+
+serjao.desktop("chromium", teste)

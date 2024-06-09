@@ -3,7 +3,11 @@ LuaCEmbedResponse *send_raw(LuaCEmbed *args){
 
   int firsr_type = lw.args.get_type(args,0);
   char *content_type = lw.args.get_str(args,1);
-  int status_code = lw.args.get_long(args,2);
+
+  unsigned short status_code = 200;
+  if(lw.args.get_type(args, 2) == lw.types.NUMBER){
+      status_code = lw.args.get_long(args, 2);
+  }
 
   if (lw.has_errors(args)) {
     char *erro_msg = lw.get_error_message(args);
@@ -42,9 +46,15 @@ LuaCEmbedResponse *send_raw(LuaCEmbed *args){
   return lw.response.send_table(table);
 
 }
+//------
 LuaCEmbedResponse *send_file(LuaCEmbed *args) {
   char *rout_file = lw.args.get_str(args, 0);
-  short status_code = lw.args.get_long(args, 1);
+
+  unsigned short status_code = 200;
+  if(lw.args.get_type(args, 1) == lw.types.NUMBER){
+      status_code =  lw.args.get_long(args, 1);
+  }
+
   if (lw.has_errors(args)) {
     char *erro_msg = lw.get_error_message(args);
     return lw.response.send_error(erro_msg);
@@ -67,11 +77,16 @@ LuaCEmbedResponse *send_file(LuaCEmbed *args) {
   lw.tables.set_method(table, "__gc", clear_memory_response);
   return lw.response.send_table(table);
 }
-
+//--------
 LuaCEmbedResponse *send_text(LuaCEmbed *args){
 
     const char *text = lw.args.get_str(args, 0);
-    const short status_code = lw.args.get_long(args, 1);
+
+
+    unsigned short status_code = 200;
+    if(lw.args.get_type(args, 1) == lw.types.NUMBER){
+        status_code = lw.args.get_long(args, 1);
+    }
 
     if(lw.has_errors(args)){
         char *erro_msg = lw.get_error_message(args);
