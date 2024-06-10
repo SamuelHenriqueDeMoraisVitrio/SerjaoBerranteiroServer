@@ -58,3 +58,14 @@ application terminated
 }
 ```
 - [ ] Icone do chromium, funcionalidade de trocar.
+```
+[Desktop Entry]
+Version=1.0
+Name=Meu Chromium App
+Comment=Meu aplicativo baseado no Chromium
+Exec=chromium --app=https://example.com
+Icon=/caminho/para/o/icone/icon.png
+Terminal=false
+Type=Application
+Categories=Utility;Application;
+```
