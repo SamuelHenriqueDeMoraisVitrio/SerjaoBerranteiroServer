@@ -2,7 +2,7 @@
 
 LuaCEmbedResponse *initdesktop(LuaCEmbed *arg) {
 
-    char * starter = lw.args.get_str(arg,0);
+    char *starter = lw.args.get_str(arg,0);
 
 
     if (lw.has_errors(arg)) {

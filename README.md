@@ -2,7 +2,7 @@
 
 ## Languages
 
-[Português]()
+[Português](https://github.com/SamuelHenriqueDeMoraisVitrio/SerjaoBerranteiroServer/blob/main/Markdown/language/Portugu%C3%AAsBR.md)
 
 ## A framework to Develop APIs and Desktop Apps
 
@@ -14,7 +14,8 @@ Bringing many functionalities such as the choice of a single process or multiple
 
 - This is still the beta version, so it may contain several "bugs".
 - To make it easier to use, put this line "---@param request Request" in your code before the server loop function.
-```
+
+```lua
 local serjao = require("serjao_berranteiro/serjao_berranteiro")
 
 
@@ -45,7 +46,7 @@ Go to the repository [SerjaoBerranteiroServer](https://github.com/SamuelHenrique
 
 Place the unzipped file inside the directory where your .lua file is located. After that, finish by calling a requirement within your Lua code.
 
-```
+```lua
 local serjao = require("Path to serjao_berranteiro directory/serjao_berranteiro")
 ```
 
@@ -70,7 +71,7 @@ Before starting the process, an automatic check of the starting port is performe
 ##### Callback
 The third parameter will call the function you created that will handle your server.
 
-```
+```lua
 local serjao = require("serjao_berranteiro/serjao_berranteiro")
 
 local function whatever_name()
@@ -107,11 +108,11 @@ This parameter requires a string of your preferred browser.
 PS: Recommended to install chromium-browser
 
 ###### APT
-```
+```bash
 sudo apt install chromium-browser
 ```
 ###### DNF
-```
+```bash
 sudo dnf install chromium-browser
 ```
 
@@ -119,7 +120,7 @@ sudo dnf install chromium-browser
 
 This parameter works the same way as in initserver.
 
-```
+```lua
 local srj = require("serjao_berranteiro/serjao_berranteiro")
 
 local function whatever_name()
@@ -151,7 +152,8 @@ The requests are:
 
 ### URL, METHOD, ROUTE
 These three requests are simple:
-```
+
+```lua
 local sla = require("serjao_berranteiro/serjao_berranteiro")
 
 local function main_server(request)
@@ -175,7 +177,8 @@ These requests can be used in two ways:
 The first is by key, where you can search for a header or param by the key name.
 The second way is by index, returning a table that can access the key and value.
 PS:. Remember that if you work with an index, Lua starts the index at number 1.
-```
+
+```lua
 local srj = require("serjao_berranteiro/serjao_berranteiro")
 
 local function main_server(request)
@@ -199,7 +202,7 @@ srj.initserver(3000, 3000, main_server)
 The read_json_body function reads the body and returns a table of this JSON. This function has only one parameter, which is the maximum size in bytes for security.
 The JSON I will use as an example is this:
 
-```
+```json
 {
 	"json": "jsonV4.0",
 	"name": "samuel",
@@ -207,7 +210,7 @@ The JSON I will use as an example is this:
 }
 ```
 
-```
+```lua
 local serjao = require("serjao_berranteiro/serjao_berranteiro")
 
 local function main_server(request)
@@ -227,7 +230,7 @@ serjao.initserver(3000, 3000, main_server)
 
 The read_body function also reads the body.
 
-```
+```lua
 local serjao = require("serjao_berranteiro/serjao_berranteiro")
 
 local function main_server(request)
@@ -265,7 +268,7 @@ The responses are functions that return a message to the body of your server.
 
 This function is used to send a message with the status code of this return.
 
-```
+```lua
 local serjao = require("serjao_berranteiro/serjao_berranteiro")
 
 local function main_server(request)
@@ -282,7 +285,7 @@ serjao.initserver(3000, 3003, main_server)
 
 This function is used to send a JSON to the body via a string.
 
-```
+```lua
 local serjao = require("serjao_berranteiro/serjao_berranteiro")
 
 local function main_server(request)
@@ -301,7 +304,7 @@ serjao.initserver(3000, 3003, main_server)
 
 This function is used to send HTML to the body via a string.
 
-```
+```lua
 local serjao = require("serjao_berranteiro/serjao_berranteiro")
 
 local function main_server(request)
@@ -321,7 +324,7 @@ serjao.initserver(3000, 3003, main_server)
 This function is used to send a file to the body.
 The first parameter is the file path, and the third parameter is optional but recommended, which is the content type of your file.
 
-```
+```lua
 local serjao = require("serjao_berranteiro/serjao_berranteiro")
 
 local function main_server(request)
@@ -336,7 +339,7 @@ serjao.initserver(3000, 3003, main_server)
 
 This function sends a JSON to the body by receiving a JSON table.
 
-```
+```lua
 local serjao = require("serjao_berranteiro/serjao_berranteiro")
 
 local function main_server(request)
@@ -354,7 +357,7 @@ serjao.initserver(3000, 3003, main_server)
 
 This function also accepts strings, booleans, and numbers.
 
-```
+```lua
 local serjao = require("serjao_berranteiro/serjao_berranteiro")
 
 local function main_server(request)
@@ -370,7 +373,7 @@ serjao.initserver(3000, 3003, main_server)
 This function sends anything, like a PNG, binary, or zip.
 The second parameter is the content type.
 
-```
+```lua
 local serjao = require("serjao_berranteiro/serjao_berranteiro")
 
 local sla = io.open("Captura de tela de 2024-06-01 14-38-38.png", "rb")
@@ -380,6 +383,31 @@ local function main_server(request)
 end
 
 serjao.initserver(3000, 3003, main_server)
+```
+
+### kill
+
+This function only works in single process, it kills the server.
+
+```lua
+local serjao = require("serjao_berranteiro/serjao_berranteiro")
+
+
+set_server.single_process = true
+
+---@param request Request
+local function teste(request)
+
+  if "/kill" == request.route then
+    serjao.kill()
+  end
+
+  local html = "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><title>Kill Server Button</title><style>.custom-button{background-color:#ff0000;border:none;color:white;padding:15px 32px;text-align:center;text-decoration:none;display:inline-block;font-size:16px;margin:4px 2px;cursor:pointer;border-radius:8px;}</style></head><body><button class=\"custom-button\" id=\"killButton\">Kill Server</button><script>document.getElementById('killButton').addEventListener('click',function(){fetch('/kill',{method:'GET'});});</script></body></html>"
+
+  return serjao.send_html(html, 200)
+end
+
+serjao.desktop("chromium", teste, nil, 800)
 ```
 
 ***
@@ -408,7 +436,7 @@ This set_server is used to make pre-configurations on your server.
 
 This config is used to set the null string of the JSON
 
-```
+```lua
 local serjao = require("serjao_berranteiro/serjao_berranteiro")
 
 set_server.nullterminator = "nil"
@@ -430,7 +458,7 @@ serjao.initserver(3000, 3003, main_server)
 
 This config determines whether the server will be single or multiprocess.
 
-```
+```lua
 local serjao = require("serjao_berranteiro/serjao_berranteiro")
 
 set_server.single_process = true
@@ -446,7 +474,7 @@ serjao.initserver(3000, 3003, main_server)
 
 Sets a default folder.
 
-```
+```lua
 local serjao = require("serjao_berranteiro/serjao_berranteiro")
 
 set_server.use_folder = false
@@ -462,7 +490,7 @@ serjao.initserver(3000, 3003, main_server)
 
 Sets the name of the default folder.
 
-```
+```lua
 local serjao = require("serjao_berranteiro/serjao_berranteiro")
 
 set_server.use_folder = true
@@ -482,7 +510,7 @@ serjao.initserver(3000, 3003, main_server)
 There is an engine to work with HTMLs within the code itself.
 To add an unrecognized command by the lib, use the component and if you want to manually create the command or use a command that ends with '</...>' use fragment
 
-```
+```lua
 local serjao = require("serjao_berranteiro/serjao_berranteiro")
 
 local function teste()
