@@ -251,6 +251,7 @@ serjao.initserver(3000, 3003, main_server)
 ## Response
 
 The responses are functions that return a message to the body of your server.
+PS:.All responses, no need to enter the status_code as it defaults to 200.
 
 ### responses:
 
@@ -263,6 +264,7 @@ The responses are functions that return a message to the body of your server.
 | send_json_string | json                     |
 | send_html        | html                     |
 | ""               | text without status code |
+| kill             | kiil to server           |
 
 ### send_text
 
@@ -275,6 +277,21 @@ local function main_server(request)
 
 
   return serjao.send_text("Hello Word", 200)
+
+end
+
+serjao.initserver(3000, 3003, main_server)
+```
+
+You can do it like this too. The only change is that there is no option to choose the status_code, as it defaults to 200.
+
+```lua
+local serjao = require("serjao_berranteiro/serjao_berranteiro")
+
+local function main_server(request)
+
+
+  return "Hello Word"
 
 end
 
