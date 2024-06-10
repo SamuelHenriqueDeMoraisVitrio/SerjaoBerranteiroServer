@@ -27,7 +27,7 @@ local function teste(request)
       return serjao.send_text("aaa",200)
 end
 
-serjao.initserver(3000,4000,teste);
+serjao.server(3000,4000,teste);
 ```
 
 ***
@@ -56,7 +56,7 @@ Now you can use all the functionalities of the SerjaoBerranteiroServer.
 
 ## Starting a server
 
-### The initserver function allows you to start your server
+### The server function allows you to start your server
 
 #### Parameters:
 | Port number | Functionality |
@@ -80,29 +80,31 @@ local function whatever_name()
 
 end
 
-serjao.initserver(3000, 5000, whatever_name)
+serjao.server(3000, 5000, whatever_name)
 ```
 
 ***
 
 ## Starting a 'desktop'
 
-### The initdesktop function allows you to start the appServer
+### The desktop function allows you to start the appServer
 
 #### Parameters:
 
 | Port number	 | Functionality |
 |--------------|---------------|
-| Parameter 1  | Starting port |
-| Parameter 2  | Ending port   |
-| Parameter 3  | Browser       |
-| Parameter 3  | Callback      |
+| Parameter 1  | Browser       |
+| Parameter 2  | Callback      |
+| Parameter 3  | resolution x  |
+| Parameter 4  | resolution y  |
 
-##### Ports:
+##### Calback
+The third parameter will call the function you created that will handle your server.
 
-The first two parameters work the same way as in initserver.
+##### resolutions
+These parameters allow you to choose the resolution of your desktop. Therefore, if you stop placing these parameters, it will be full screen by default, but if you only respond to the x axis, both axes will have that value. Now, if you put nil on x and a number on the second, you will define a value for the axis. y and the x axis will be 800 by default.
 
-##### Navegador:
+##### browser:
 
 This parameter requires a string of your preferred browser.
 PS: Recommended to install chromium-browser
@@ -118,7 +120,7 @@ sudo dnf install chromium-browser
 
 ##### Calback:
 
-This parameter works the same way as in initserver.
+This parameter works the same way as in server.
 
 ```lua
 local srj = require("serjao_berranteiro/serjao_berranteiro")
@@ -129,7 +131,7 @@ local function whatever_name()
 
 end
 
-srj.initdesktop(3000, 3000, "chromium", whatever_name)
+srj.desktop("chromium", whatever_name, 800, 400)
 ```
 
 ***
@@ -158,7 +160,7 @@ local sla = require("serjao_berranteiro/serjao_berranteiro")
 
 local function main_server(request)
 
-  local url  = request.url
+  local url = request.url
   local method = request.method
   local route = request.route
 
@@ -168,7 +170,7 @@ local function main_server(request)
 
 end
 
-sla.initdesktop(3000, 3000, "chromium", nome_Que_quiser)
+sla.desktop("chromium", nome_Que_quiser, nil, 400)
 ```
 
 ### PARAMS, HEADERS
@@ -194,7 +196,7 @@ local function main_server(request)
 
 end
 
-srj.initserver(3000, 3000, main_server)
+srj.server(3000, 3000, main_server)
 ```
 
 ### read_json_body
@@ -223,7 +225,7 @@ local function main_server(request)
 
 end
 
-serjao.initserver(3000, 3000, main_server)
+serjao.server(3000, 3000, main_server)
 ```
 
 ### read_body
@@ -243,7 +245,7 @@ local function main_server(request)
 
 end
 
-serjao.initserver(3000, 3003, main_server)
+serjao.server(3000, 3003, main_server)
 ```
 
 ***
@@ -280,7 +282,7 @@ local function main_server(request)
 
 end
 
-serjao.initserver(3000, 3003, main_server)
+serjao.server(3000, 3003, main_server)
 ```
 
 You can do it like this too. The only change is that there is no option to choose the status_code, as it defaults to 200.
@@ -295,7 +297,7 @@ local function main_server(request)
 
 end
 
-serjao.initserver(3000, 3003, main_server)
+serjao.server(3000, 3003, main_server)
 ```
 
 ### send_json_string
@@ -314,7 +316,7 @@ local function main_server(request)
 
 end
 
-serjao.initserver(3000, 3003, main_server)
+serjao.server(3000, 3003, main_server)
 ```
 
 ### send_html
@@ -333,7 +335,7 @@ local function main_server(request)
 
 end
 
-serjao.initserver(3000, 3003, main_server)
+serjao.server(3000, 3003, main_server)
 ```
 
 ### send_file
@@ -348,7 +350,7 @@ local function main_server(request)
   return serjao.send_file("Captura de tela de 2024-06-01 14-38-38.png", 200, "image/png")
 end
 
-serjao.initserver(3000, 3003, main_server)
+serjao.server(3000, 3003, main_server)
 ```
 
 
@@ -369,7 +371,7 @@ local function main_server(request)
   return serjao.send_json(json, 200)
 end
 
-serjao.initserver(3000, 3003, main_server)
+serjao.server(3000, 3003, main_server)
 ```
 
 This function also accepts strings, booleans, and numbers.
@@ -382,7 +384,7 @@ local function main_server(request)
   return serjao.send_json("Hello Word", 200)
 end
 
-serjao.initserver(3000, 3003, main_server)
+serjao.server(3000, 3003, main_server)
 ```
 
 ### send_raw
@@ -399,7 +401,7 @@ local function main_server(request)
   return serjao.send_raw(sla, "image/png", 200)
 end
 
-serjao.initserver(3000, 3003, main_server)
+serjao.server(3000, 3003, main_server)
 ```
 
 ### kill
@@ -424,7 +426,7 @@ local function teste(request)
   return serjao.send_html(html, 200)
 end
 
-serjao.desktop("chromium", teste, nil, 800)
+serjao.desktop("chromium", teste)
 ```
 
 ***
@@ -468,7 +470,7 @@ local function main_server(request)
   return serjao.send_json(json, 200)
 end
 
-serjao.initserver(3000, 3003, main_server)
+serjao.server(3000, 3003, main_server)
 ```
 
 ### single_process
@@ -484,7 +486,7 @@ local function main_server(request)
   return "sla sla sla"
 end
 
-serjao.initserver(3000, 3003, main_server)
+serjao.server(3000, 3003, main_server)
 ```
 
 ### use_folder
@@ -500,7 +502,7 @@ local function main_server(request)
   return "sla sla sla"
 end
 
-serjao.initserver(3000, 3003, main_server)
+serjao.server(3000, 3003, main_server)
 ```
 
 ### static_folder
@@ -517,7 +519,7 @@ local function main_server(request)
   return "sla sla sla"
 end
 
-serjao.initserver(3000, 3003, main_server)
+serjao.server(3000, 3003, main_server)
 ```
 
 ***
@@ -544,7 +546,7 @@ local function teste()
 
 end
 
-serjao.initserver(3000,4000,teste)
+serjao.server(3000,4000,teste)
 
 
 ```

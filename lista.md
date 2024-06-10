@@ -6,7 +6,7 @@
 - [ ] Documentar função para printar html
 - [x] Documentar a opção de não escolher o status_code
 - [ ] Documentar multi e single quando não nescessario
-- [ ] Documentar como escolher a resolução
+- [x] Documentar como escolher a resolução
 
 ***
 
