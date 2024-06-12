@@ -37,4 +37,4 @@ local function teste(request)
     return serjao.send_html(html.render())
 end
 
-serjao.desktop("chromium-browser", teste, nil, 1000)
+serjao.desktop("chromium-browser", teste,800)

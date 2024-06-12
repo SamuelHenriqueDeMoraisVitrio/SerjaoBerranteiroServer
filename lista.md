@@ -2,6 +2,7 @@
 
 - [x] Documentar kill
 - [ ] Documentar todos set_servers
+- [ ] Documentar em PT-BR
 - [x] Documentar todos commands html
 - [x] Documentar função para printar html
 - [x] Documentar a opção de não escolher o status_code
