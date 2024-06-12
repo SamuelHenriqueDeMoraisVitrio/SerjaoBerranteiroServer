@@ -6,6 +6,9 @@ set_server.single_process = true;
 
 ---@param request Request
 local function teste(request)
+    if request.route == "/kill" then
+    	serjao.kill()
+    end
 
    if request.route == "/increment" then
         num = num +1
@@ -28,6 +31,13 @@ local function teste(request)
                                 ["hx-post"]="/increment",
                                 ["hx-target"]="#num",
                                 ["hx-swap"]="innerHTML"
+                          }),
+                          "<br>",
+                          button("kill",{
+                                   style={color="white",["background-color"]="red"},
+                                  ["hx-trigger"]="click",
+                                  ["hx-post"]="/kill",
+                                  ["hx-swap"]="None"
                           })
                   )
           )

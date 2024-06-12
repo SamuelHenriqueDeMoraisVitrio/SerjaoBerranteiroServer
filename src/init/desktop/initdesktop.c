@@ -76,16 +76,18 @@ LuaCEmbedResponse *initdesktop(LuaCEmbed *arg) {
     while (true){
         int status;
         pid_t brwoser_result = waitpid(pid_browser, &status, WNOHANG);
-        if(brwoser_result != 0){
-            kill(pid_server, SIGKILL) ;
-            kill(pid_browser,SIGKILL);
-            break;
-        }
         pid_t server_seult = waitpid(pid_server,&status,WNOHANG);
+
+        if(brwoser_result != 0){
+            if(kill(server_seult, SIGKILL) == -1){
+                break;
+            }
+        }
+
         if(server_seult != 0){
-            kill(pid_server, SIGKILL) ;
-            kill(pid_browser,SIGKILL);
-            break;
+            if(kill(brwoser_result,SIGKILL) == -1){
+                break;
+            }
         }
     }
     printf("application terminated\n");
