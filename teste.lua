@@ -13,6 +13,7 @@ local function teste(request)
         print(current.key," = ",current.value)
     end
 
+
     return "aaaaa"
 
 end
