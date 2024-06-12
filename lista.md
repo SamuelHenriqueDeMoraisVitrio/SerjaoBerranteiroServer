@@ -8,6 +8,7 @@
 - [x] Documentar multi e single quando não nescessario
 - [x] Documentar como escolher a resolução
 - [ ] Fazer um doc help
+- [ ] size request
 
 ***
 
