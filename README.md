@@ -483,7 +483,7 @@ serjao.server(3000, 3003, main_server)
 ### single_process
 
 This config determines whether the server will be single or multiprocess.
-PS:
+PS: Essa configuração sempre estará ativa no modo desktop, mas de resto ele ficará desativado como padrão.
 
 ```lua
 local serjao = require("serjao_berranteiro/serjao_berranteiro")

@@ -5,7 +5,7 @@
 - [x] Documentar todos commands html
 - [x] Documentar função para printar html
 - [x] Documentar a opção de não escolher o status_code
-- [ ] Documentar multi e single quando não nescessario
+- [x] Documentar multi e single quando não nescessario
 - [x] Documentar como escolher a resolução
 - [ ] Fazer um doc help
 

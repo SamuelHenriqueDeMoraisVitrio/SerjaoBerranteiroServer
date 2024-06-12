@@ -426,7 +426,7 @@
 ---@field send_json fun(data:any, status_code:number|nil):serjaoResponse
 ---@field send_raw fun(content:any, content_type:string, status_code:number|nil):serjaoResponse
 ---@field send_json_string fun(string:string, status_code:number|nil):serjaoResponse
----@field send_html fun(html_code:string, status_code:number|nil):serjaoResponse
+---@field send_html fun(html_code:string|table, status_code:number|nil):serjaoResponse
 ---@field component fun(...: string):table
 ---@field fragment fun(...: string):table
 ---@field kill fun()
