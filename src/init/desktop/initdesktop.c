@@ -79,15 +79,14 @@ LuaCEmbedResponse *initdesktop(LuaCEmbed *arg) {
         pid_t server_seult = waitpid(pid_server,&status,WNOHANG);
 
         if(brwoser_result != 0){
-            if(kill(server_seult, SIGKILL) == -1){
-                break;
-            }
+            kill(server_seult, SIGKILL);
+            break;
         }
 
         if(server_seult != 0){
-            if(kill(brwoser_result,SIGKILL) == -1){
-                break;
-            }
+            kill(brwoser_result,SIGKILL);
+            break;
+
         }
     }
     printf("application terminated\n");
