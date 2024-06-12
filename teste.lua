@@ -8,11 +8,11 @@ set_server.single_process = true;
 local function teste(request)
 
 
+
     for i=1,request.header.size do
         local current = request.header[i]
         print(current.key," = ",current.value)
     end
-
 
     return "aaaaa"
 
