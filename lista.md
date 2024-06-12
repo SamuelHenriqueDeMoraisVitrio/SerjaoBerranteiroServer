@@ -1,5 +1,4 @@
 # A fazer
-
 - [x] Documentar kill
 - [ ] Documentar todos set_servers
 - [ ] Documentar em PT-BR
@@ -19,6 +18,9 @@
 - [x] Colocar opção de resolução em “desktop”
 - [x] Opção de escolher o título em “desktop”
 - [x] Vazamento no "desktop"
+- [ ] Iteração em headear
+- [ ] objeto direto no return é um json
+
 ```
 {
 Compilação concluida. Iniciando...
