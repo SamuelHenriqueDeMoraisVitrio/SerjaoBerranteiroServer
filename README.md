@@ -482,8 +482,8 @@ serjao.server(3000, 3003, main_server)
 
 ### single_process
 
-This config determines whether the server will be single or multiprocess.
-PS: Essa configuração sempre estará ativa no modo desktop, mas de resto ele ficará desativado como padrão.
+This config determines whether the **"server"** will be “single” or multiprocess.
+PS: Essa configuração sempre estará ativa no modo “desktop”, mas de resto ele ficará desativado como padrão.
 
 ```lua
 local serjao = require("serjao_berranteiro/serjao_berranteiro")
@@ -691,4 +691,58 @@ end
 
 serjao.server(3000,4000,teste)
 ```
+
+***
+
+An example of using the engine:
+
+```lua
+local serjao = require("serjao_berranteiro/serjao_berranteiro")
+
+local num = 0
+
+---@param request Request
+local function teste(request)
+
+   if request.route == "/increment" then
+        num = num +1
+   	    return serjao.send_html(h1("o valor do numero é ",tostring(num),{id="num"}))
+
+   end
+  local html = serjao.fragment("<!DOCTYPE html>",
+
+          html(
+                  head(
+                          title("Hello Word"),
+                          script({src="https://unpkg.com/htmx.org@1.9.12"})
+                  ),
+
+                  body(
+                          h1("o valor do numero é ",tostring(num),{id="num"}),
+                          "<br>",
+                          button("increment",{
+                                ["hx-trigger"]="click",
+                                ["hx-post"]="/increment",
+                                ["hx-target"]="#num",
+                                ["hx-swap"]="innerHTML"
+                          })
+                  )
+          )
+  )
+    return serjao.send_html(html.render())
+end
+
+serjao.desktop("chromium-browser", teste,600)
+```
+
+***
+
+init
+![Example image](Markdown/imgs/Captura de tela de 2024-06-11 23-56-53.png)
+
+Pressing the button 1 time
+![Exemple image2](Markdown/imgs/Captura de tela de 2024-06-11 23-57-02.png)
+
+Pressing the button a second time
+![Exemple image3](Markdown/imgs/Captura de tela de 2024-06-11 23-57-14.png)
 
