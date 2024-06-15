@@ -3,7 +3,7 @@
 CwebHttpResponse *main_sever(CwebHttpRequest *request) {
   cbrq = request;
   create_request(l);
-  lw.evaluate(l, "serverresponse  = server_callback(request_main_server)");
+  lw.evaluate(l, "serverresponse,server_status_code  = server_callback(request_main_server)");
 
   if (lw.has_errors(l)) {
     char *error = lw.get_error_message(l);
@@ -11,12 +11,25 @@ CwebHttpResponse *main_sever(CwebHttpRequest *request) {
     return cb.response.send_text("Interno server error", 500);
   }
 
+  int status_code = 200;
+  int status_type=lw.globals.get_type(l,"server_status_code");
+
+  if(status_type != lw.types.NILL) {
+      status_code = lw.globals.get_long(l,"server_status_code");
+  }
+
+  if (lw.has_errors(l)) {
+      char *error = lw.get_error_message(l);
+      printf("%s\n", error);
+     return cb.response.send_text("Interno server error", 500);
+  }
+
   int response_type = lw.globals.get_type(l, "serverresponse");
 
 
   if (response_type == lw.types.STRING) {
      char *value = lw.globals.get_string(l, "serverresponse");
-     return cb.response.send_text(value, 200);
+     return cb.response.send_text(value, status_code);
   }
 
   if (response_type == lw.types.TABLE) {
@@ -30,7 +43,7 @@ CwebHttpResponse *main_sever(CwebHttpRequest *request) {
              private_LuaCEmbedResponse_free(content.error);
              return cb.response.send_text("Interno server error", 500);
          }
-         return cb.response.send_var_html_cleaning_memory(content.text,200);
+         return cb.response.send_var_html_cleaning_memory(content.text,status_code);
      }
 
 
@@ -48,7 +61,7 @@ CwebHttpResponse *main_sever(CwebHttpRequest *request) {
          return response_cb;
      }
      cJSON *parsed = lua_fluid_json_dump_table_to_cJSON(table);
-     CwebHttpResponse * response =  cb.response.send_cJSON_cleaning_memory(parsed,200);
+     CwebHttpResponse * response =  cb.response.send_cJSON_cleaning_memory(parsed,status_code);
       return response;
   }
 

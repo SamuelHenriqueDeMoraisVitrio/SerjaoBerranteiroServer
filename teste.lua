@@ -13,7 +13,7 @@ local function teste(request)
 
    return {
         nome="mateus"
-   }
+   },404
 end
 
 serjao.server(3000,4000,teste)
