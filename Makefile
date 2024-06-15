@@ -28,7 +28,6 @@ zip: clear
 	@unzip -l serjao_server.zip
 	echo ""
 
-
 clear:
 	clear
 	@ls --color=always -alh

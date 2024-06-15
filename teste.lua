@@ -11,11 +11,10 @@ local function teste(request)
 
     for i=1,request.header.size do
         local current = request.header[i]
-        print(current.key," = ",current.value)
+--        print(current.key," = ",current.value)
     end
 
-    return "aaaaa"
-
+    return serjao.send_json()
 end
 
 serjao.server(3000,4000,teste)
