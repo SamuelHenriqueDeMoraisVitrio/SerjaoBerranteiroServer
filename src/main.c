@@ -8,6 +8,7 @@ CwebHttpResponse *main_sever(CwebHttpRequest *request) {
   if (lw.has_errors(l)) {
     char *error = lw.get_error_message(l);
     printf("%s\n", error);
+    lw.clear_errors(l);
     return cb.response.send_text("Interno server error", 500);
   }
 
