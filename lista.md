@@ -9,6 +9,7 @@
 - [x] Documentar como escolher a resolução
 - [ ] Fazer um doc help
 - [ ] Doc size request
+- [ ] Doc response minimal and status_code
 
 ***
 
@@ -20,8 +21,10 @@
 - [x] Opção de escolher o título em “desktop”
 - [x] Vazamento no "desktop"
 - [x] Iteração em headear
-- [ ] Objeto direto no return é um json
+- [x] Objeto direto no return é um json
 - [ ] Melhorar portas no servidor
+- [ ] Olhar CEF
+- [ ] Chromium Desktop in c or cpp
 - [ ] Icone do chromium, funcionalidade de trocar.
 ```
 [Desktop Entry]

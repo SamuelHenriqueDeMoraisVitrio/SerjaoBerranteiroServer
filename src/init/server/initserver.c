@@ -3,7 +3,9 @@
 
 LuaCEmbedResponse *initserver(LuaCEmbed *arg) {
     unsigned short initport = (unsigned short)lw.args.get_long(arg, 0);
-    const unsigned short lastport = (unsigned short)lw.args.get_long(arg, 1);
+    bool its_a_number = (lw.types.NUMBER == lw.args.get_type(arg, 1));
+
+    const unsigned short lastport = its_a_number ? (unsigned short)lw.args.get_long(arg, 1) : initport;
     unsigned short port = initport;
 
     if (lw.has_errors(arg)) {
@@ -11,7 +13,7 @@ LuaCEmbedResponse *initserver(LuaCEmbed *arg) {
     }
 
     const char *functionvalue = "function(value) server_callback = value end";
-    lw.args.generate_arg_clojure_evalation(arg, 2, functionvalue);
+    lw.args.generate_arg_clojure_evalation(arg, its_a_number ? 2 : 1, functionvalue);
 
     if (lw.has_errors(arg)) {
         return lw.response.send_error("Uninformed arguments");
