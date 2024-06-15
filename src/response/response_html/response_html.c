@@ -35,6 +35,7 @@ LuaCEmbedResponse *send_HTML(LuaCEmbed *args){
 
     CwebHttpResponse *response = cb.response.send_var_html((char *)html_code, status_code);
     LuaCEmbedTable *table = lw.tables.new_anonymous_table(args);
+
     lw.tables.set_long_prop(table, "response_pointer", (long long)response);
     lw.tables.set_bool_prop(table, "its_a_reference", false);
     lw.tables.set_method(table, "__gc", clear_memory_response);

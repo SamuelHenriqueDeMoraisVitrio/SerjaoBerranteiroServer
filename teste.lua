@@ -7,14 +7,13 @@ set_server.single_process = true;
 ---@param request Request
 local function teste(request)
 
+   if request.route == "/teste" then
+    	return html(body(h1("aaaaa")))
+   end
 
-
-    for i=1,request.header.size do
-        local current = request.header[i]
---        print(current.key," = ",current.value)
-    end
-
-    return serjao.send_json()
+   return {
+        nome="mateus"
+   }
 end
 
 serjao.server(3000,4000,teste)

@@ -3,7 +3,7 @@
 CwebHttpResponse *main_sever(CwebHttpRequest *request) {
   cbrq = request;
   create_request(l);
-  lw.evaluate(l, "serverresponse = server_callback(request_main_server)");
+  lw.evaluate(l, "serverresponse  = server_callback(request_main_server)");
 
   if (lw.has_errors(l)) {
     char *error = lw.get_error_message(l);
@@ -22,19 +22,34 @@ CwebHttpResponse *main_sever(CwebHttpRequest *request) {
   if (response_type == lw.types.TABLE) {
      LuaCEmbedTable *table = lw.globals.get_table(l, "serverresponse");
 
-     lw.tables.set_bool_prop(table, "its_a_reference", true);
-     CwebHttpResponse *response_cb = (CwebHttpResponse *)lw.tables.get_long_prop(table, "response_pointer");
 
-     if (lw.has_errors(l)) {
-      char *error = lw.get_error_message(l);
-      printf("%s\n", error);
-      lw.clear_errors(l);
+     if(its_a_component(table)) {
+         TextOrError content = render_component_raw(table);
+         if(content.error){
+             printf("error:%s\n",content.error->string_val);
+             private_LuaCEmbedResponse_free(content.error);
+             return cb.response.send_text("Interno server error", 500);
+         }
+         return cb.response.send_var_html_cleaning_memory(content.text,200);
+     }
 
-      return cb.response.send_text("Interno server error", 500);
-    }
 
+     if(lw.tables.get_type_prop(table,"response_pointer") == lw.types.NUMBER) {
+         lw.tables.set_bool_prop(table, "its_a_reference", true);
+         CwebHttpResponse *response_cb = (CwebHttpResponse *)lw.tables.get_long_prop(table, "response_pointer");
+         if (lw.has_errors(l)) {
+             char *error = lw.get_error_message(l);
+             printf("%s\n", error);
+             lw.clear_errors(l);
 
-    return response_cb;
+             return cb.response.send_text("Interno server error", 500);
+         }
+
+         return response_cb;
+     }
+     cJSON *parsed = lua_fluid_json_dump_table_to_cJSON(table);
+     CwebHttpResponse * response =  cb.response.send_cJSON_cleaning_memory(parsed,200);
+      return response;
   }
 
   return NULL;
