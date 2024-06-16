@@ -53,6 +53,13 @@ local serjao = require("Path to serjao_berranteiro directory/serjao_berranteiro"
 
 Now you can use all the functionalities of the SerjaoBerranteiroServer.
 
+A simple way to install this dll for your project is:
+* First, in the terminal, enter your project directory.
+* Then copy this command:
+```commandline
+curl -L -o serjao_berranteiro.zip https://github.com/SamuelHenriqueDeMoraisVitrio/SerjaoBerranteiroServer/releases/download/V2/serjao_server.zip && unzip serjao_berranteiro.zip && rm serjao_berranteiro.zip 
+```
+
 ***
 
 ## Starting a server
