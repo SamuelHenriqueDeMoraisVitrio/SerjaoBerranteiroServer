@@ -1,6 +1,7 @@
 # A fazer
 - [x] Documentar kill
 - [ ] Documentar todos set_servers
+- [ ] Documentar as portas server
 - [ ] Documentar em PT-BR
 - [x] Documentar todos commands html
 - [x] Documentar função para printar html
@@ -14,6 +15,7 @@
 ***
 
 - [x] Separar o main em mais files
+- [ ] Atualizar o auto-complet
 - [x] Portas padrão é 200 em responses
 - [x] Colocar todos os comandos html no autocomplete
 - [x] Colocar funções da engine html no autocomplete
@@ -22,7 +24,7 @@
 - [x] Vazamento no "desktop"
 - [x] Iteração em headear
 - [x] Objeto direto no return é um json
-- [ ] Melhorar portas no servidor
+- [x] Melhorar portas no servidor
 - [ ] Olhar CEF
 - [ ] Chromium Desktop in c or cpp
 - [ ] Icone do chromium, funcionalidade de trocar.

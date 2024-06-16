@@ -26,14 +26,14 @@ zip: clear
 	@rm serjao_server.zip
 	@zip -rv serjao_server.zip serjao_berranteiro
 	@unzip -l serjao_server.zip
-	echo ""
+	@echo ""
 
 clear:
 	clear
 	@ls --color=always -alh
 	@echo ""
 
-#TRocar o nome de forma permanente do teste.lua
+#TRocar o nome de forma permanente do teste2.lua
 
 set_lua:
 	@echo LUA=$(LUA) > $(CONFIG_LUA)

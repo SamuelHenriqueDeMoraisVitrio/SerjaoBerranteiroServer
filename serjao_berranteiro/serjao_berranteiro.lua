@@ -419,7 +419,7 @@
 
 
 ---@class serjaoBerranteiro
----@field server fun(initport:number, lastport:number, main_server:fun(request:Request))
+---@field server fun(initport:number, lastport:number|main_server_one_port:fun(request:Request), main_server:fun(request:Request)|nil)
 ---@field desktop fun(server:string, main_server:fun(request:request), x_axis:number|nil, y_axis:number|nil)
 ---@field send_text fun(text:string, status_code:number|nil):serjaoResponse
 ---@field send_file fun(route_file:string, status_code:number|nil, content_type:string|nil):serjaoResponse
@@ -430,8 +430,6 @@
 ---@field component fun(...: string):table
 ---@field fragment fun(...: string):table
 ---@field kill fun()
-
-
 
 local info = debug.getinfo(1, "S")
 local path = info.source:match("@(.*/)") or ""
