@@ -1,4 +1,4 @@
-# Serjão Berranteiro Server
+# Serjão Berranteiro Server Documentation
 
 ## Languages
 
@@ -6,32 +6,9 @@
 
 ## A framework to Develop APIs and Desktop Apps
 
-It is a library for the Lua language aiming to be straightforward and intuitive,
-but without losing the freedom to set up your server the way you prefer.
+Serjão Berranteiro Server is a library for the Lua language designed to develop APIs and desktop applications in a simple and intuitive way, maintaining flexibility in configuring the server according to your preferences.
 
 Bringing many functionalities such as the choice of a single process or multiple processes, an HTML engine, working with JSON, among others.
-
-## Notices
-
-- This is still the beta version, so it may contain several "bugs."
-- To make it easier to use, put this line "---@param request Request" in your code before the server loop function.
-
-```lua
-local serjao = require("serjao_berranteiro/serjao_berranteiro")
-
-
-set_server.single_process = true
-
-
----@param request Request
-local function teste(request)
-      return serjao.send_text("aaa",200)
-end
-
-serjao.server(3000,4000,teste);
-```
-
-***
 
 ## Versions
 
@@ -56,13 +33,15 @@ Now you can use all the functionalities of the SerjaoBerranteiroServer.
 A simple way to install this dll for your project is:
 * First, in the terminal, enter your project directory.
 * Then copy this command:
-```commandline
+```bash
 curl -L -o serjao_berranteiro.zip https://github.com/SamuelHenriqueDeMoraisVitrio/SerjaoBerranteiroServer/releases/download/V2/serjao_server.zip && unzip serjao_berranteiro.zip && rm serjao_berranteiro.zip 
 ```
 
 ***
 
 ## Starting a server
+
+With this functionality you can develop your own server normally used for developing "APIs".
 
 ### The server function allows you to start your server
 
@@ -116,6 +95,8 @@ serjao.server(3000, whatever_name)
 ***
 
 ## Starting a 'desktop'
+
+With desktop functionality you can develop your own local application, such as “VScode” or “Postman”.
 
 ### The desktop function allows you to start the appServer
 
@@ -310,6 +291,27 @@ local function main_server(request)
 end
 
 serjao.server(3000, 3003, main_server)
+```
+
+***
+
+## Notices
+
+- To make it easier to use, put this line "---@param request Request" in your code before the server loop function.
+
+```lua
+local serjao = require("serjao_berranteiro/serjao_berranteiro")
+
+
+set_server.single_process = true
+
+
+---@param request Request
+local function teste(request)
+      return serjao.send_text("aaa",200)
+end
+
+serjao.server(3000,4000,teste);
 ```
 
 ***
