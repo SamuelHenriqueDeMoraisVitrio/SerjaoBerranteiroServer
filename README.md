@@ -66,6 +66,12 @@ Now you can use all the functionalities of the SerjaoBerranteiroServer.
 | Parameter 2 | Ending port   |
 | Parameter 3 | Callback      |
 
+##### OR
+| Port number | Functionality |
+|-------------|---------------|
+| Parameter 1 | Starting port |
+| Parameter 2 | Callback      |
+
 ##### Ports
 Before starting the process, an automatic check of the starting port is performed.
 If it does not work,
@@ -84,6 +90,20 @@ local function whatever_name()
 end
 
 serjao.server(3000, 5000, whatever_name)
+```
+
+By placing only the first port and the callback in the second parameter, you are telling the server that it only wants to run if it is on that port.
+
+```lua
+local serjao = require("serjao_berranteiro/serjao_berranteiro")
+
+local function whatever_name()
+
+  return "Hello Word", 400
+
+end
+
+serjao.server(3000, whatever_name)
 ```
 
 ***
@@ -206,6 +226,36 @@ end
 srj.server(3000, 3000, main_server)
 ```
 
+You can also look at the size of the header or params, in case you want to interact with them.
+
+```lua
+local serjao = require("serjao_berranteiro/serjao_berranteiro")
+
+local num = 0
+set_server.single_process = true;
+
+
+---@param request Request
+local function teste(request)
+
+  print(request.header.size)
+  print(request.params.size)
+
+  if request.route == "/teste" then
+    return html(body(h1("aaaaa")))
+  end
+  if request.route == "/a" then
+    local v = nil .. 10
+  end
+  return {
+    nome="mateus"
+  },404
+end
+
+serjao.server(3000, 5000, teste)
+--serjao.desktop("chromium", teste, 800, 400)
+```
+
 ### read_json_body
 
 The read_json_body function reads the body and returns a table of this JSON. This function has only one parameter, which is the maximum size in bytes for security.
@@ -274,6 +324,29 @@ PS:.All responses, no need to enter the status_code as it defaults to 200.
 | send_html        | html                     |
 | ""               | text without status code |
 | kill             | kiil to server           |
+| { }              | json                     |
+| fun()            | html                     |
+
+#### Minimum responses
+
+In all responses that do not use the send function, such as 'html', 'string or 'json', you have the option of placing 'status_code' as a second return. If you do not enter the second return, it will be taken as default 200.
+
+```lua
+local serjao = require("serjao_berranteiro/serjao_berranteiro")
+
+---@param rq Request
+local function main_server(rq)
+
+  if rq.route == "/or" then
+    return html(body(h1("Hello Word"))), 500
+  end
+
+  return {name = "Samuel", from = "Brazil", age = 18}, 404
+
+end
+
+serjao.server(3000, 3003, main_server)
+```
 
 ### send_text
 
@@ -333,8 +406,14 @@ This function is used to send HTML to the body via a string.
 ```lua
 local serjao = require("serjao_berranteiro/serjao_berranteiro")
 
-local function main_server()
+local function main_server(rq)
 
+  if rq.route == "/or" then
+    local htmlOR = html(head(title("Hello")), body(h1("Hello Word")))
+
+    return htmlOR
+  end
+  
 
   local html = "<html><body><h1>Hello</h1></body></html>"
 
@@ -368,17 +447,21 @@ This function sends a JSON to the body by receiving a JSON table.
 ```lua
 local serjao = require("serjao_berranteiro/serjao_berranteiro")
 
-local function main_server()
+local function main_server(rq)
   local json = {
     nome = "samuel",
     sla = "NULL",
     idade = 20
   }
 
+  if rq.route == "/or" then
+    return json
+  end
+
   return serjao.send_json(json, 200)
 end
 
-serjao.server(3000, 3003, main_server)
+serjao.server(3000, main_server)
 ```
 
 This function also accepts strings, booleans, and numbers.
@@ -388,7 +471,7 @@ local serjao = require("serjao_berranteiro/serjao_berranteiro")
 
 local function main_server()
 
-  return serjao.send_json("Hello Word", 200)
+  return serjao.send_json("Hello Word")
 end
 
 serjao.server(3000, 3003, main_server)
@@ -694,7 +777,8 @@ serjao.server(3000,4000,teste)
 
 ***
 
-An example of using the engine:
+An example of using the engine:  
+PS:.In this example, htmx is being used
 
 ```lua
 local serjao = require("serjao_berranteiro/serjao_berranteiro")

@@ -401,10 +401,12 @@
 ---@class param
 ---@field key string
 ---@field value string
+---@field size number
 
 ---@class header
 ---@field key string
 ---@field value string
+---@field size number
 
 ---@class Request
 ---@field url string

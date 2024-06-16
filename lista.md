@@ -1,7 +1,7 @@
 # A fazer
 - [x] Documentar kill
 - [ ] Documentar todos set_servers
-- [ ] Documentar as portas server
+- [x] Documentar as portas server
 - [ ] Documentar em PT-BR
 - [x] Documentar todos commands html
 - [x] Documentar função para printar html
@@ -9,13 +9,13 @@
 - [x] Documentar multi e single quando não nescessario
 - [x] Documentar como escolher a resolução
 - [ ] Fazer um doc help
-- [ ] Doc size request
-- [ ] Doc response minimal and status_code
+- [x] Doc size request
+- [x] Doc response minimal and status_code
 
 ***
 
 - [x] Separar o main em mais files
-- [ ] Atualizar o auto-complet
+- [x] Atualizar o autoComplet
 - [x] Portas padrão é 200 em responses
 - [x] Colocar todos os comandos html no autocomplete
 - [x] Colocar funções da engine html no autocomplete
