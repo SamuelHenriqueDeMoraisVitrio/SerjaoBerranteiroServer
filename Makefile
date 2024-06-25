@@ -8,11 +8,12 @@ CONFIG_LUA := config.mk
 
 LUA ?= teste.lua
 RUN = echo "" && echo "" && echo "Compilação concluida. Executando..." && echo "" && lua $(LUA) && echo ""
+ROUTERUN = cd /home/samuel/Documentos/proc/SerjaoBerranteiroServer/ && $(RUN)
 g ?= ""
 gt ?= ""
 
 teste: clear
-	@$(RUN)
+	@$(ROUTERUN)
 
 comp: clear
 	$(COMPILATOR) $(OPTIONS) $(END) $(FILE)
@@ -20,11 +21,14 @@ comp: clear
 all: clear
 	@echo ""
 	$(COMPILATOR) $(OPTIONS) $(END) $(FILE)
-	@$(RUN)
+	@$(ROUTERUN)
 
 zip: clear
 	@rm serjao_server.zip
-	@zip -rv serjao_server.zip serjao_berranteiro
+	@zip -r serjao_server.zip serjao_berranteiro
+	@echo ""
+	@zip -T serjao_server.zip -v
+	@echo ""
 	@unzip -l serjao_server.zip
 	@echo ""
 
@@ -37,7 +41,7 @@ clear:
 
 set_lua:
 	@echo LUA=$(LUA) > $(CONFIG_LUA)
-	@echo ""
+	@echo "$(LUA)"
 
 #Para mexer com git
 

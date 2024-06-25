@@ -1,1 +1,1 @@
-LUA=teste2.lua
+LUA=teste.lua
