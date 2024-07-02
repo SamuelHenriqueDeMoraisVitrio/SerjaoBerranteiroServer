@@ -1,6 +1,6 @@
 # Serjão Berranteiro Server Documentation
 
-![Logo by SerjaoBerranteiroServer](Markdown/imgs/logo_olhos.png)
+![Logo by SerjaoBerranteiroServer](Markdown/imgs/logo_olhos_manchadov2.png)
 
 ## Languages
 
