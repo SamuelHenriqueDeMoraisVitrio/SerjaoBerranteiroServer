@@ -1,5 +1,7 @@
 # Serjão Berranteiro Server Documentation
 
+![Logo by SerjaoBerranteiroServer](Markdown/imgs/logo_olhos.png)
+
 ## Languages
 
 [Português](https://github.com/SamuelHenriqueDeMoraisVitrio/SerjaoBerranteiroServer/blob/main/Markdown/language/Portugu%C3%AAsBR.md)
