@@ -8,7 +8,7 @@ CONFIG_LUA := config.mk
 
 LUA ?= teste.lua
 RUN = echo "" && echo "" && echo "Compilação concluida. Executando..." && echo "" && lua $(LUA) && echo ""
-ROUTERUN = cd /home/samuel/Documentos/proc/SerjaoBerranteiroServer/ && $(RUN)
+ROUTERUN = cd /home/samuelhdmv/Documentos/SerjaoBerranteiroServer/ && $(RUN)
 g ?= ""
 gt ?= ""
 

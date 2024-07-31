@@ -412,6 +412,10 @@
 ---@field url string
 ---@field method string
 ---@field route string
+---@field ip string
+---@field content_length number
+---@field content_error number
+---@field socket number
 ---@field params table<number, param>|table<string, string>
 ---@field header table<number, header>|table<string, string>
 ---@field read_json_body fun(max_size:number):table

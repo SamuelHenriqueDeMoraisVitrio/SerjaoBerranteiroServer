@@ -43,11 +43,14 @@ LuaCEmbedResponse *setParams(LuaCEmbedTable *self, LuaCEmbed *args) {
 }
 
 void create_request(LuaCEmbed *args) {
-  LuaCEmbedTable *tableServer =
-      lw.globals.new_table(args, "request_main_server");
+  LuaCEmbedTable *tableServer = lw.globals.new_table(args, "request_main_server");
   lw.tables.set_string_prop(tableServer, "url", cbrq->url);
   lw.tables.set_string_prop(tableServer, "route", cbrq->route);
   lw.tables.set_string_prop(tableServer, "method", cbrq->method);
+  lw.tables.set_string_prop(tableServer, "ip", cbrq->client_ip);
+  lw.tables.set_long_prop(tableServer, "content_length", cbrq->content_length);
+  lw.tables.set_long_prop(tableServer, "content_error", cbrq->content_error);
+  lw.tables.set_long_prop(tableServer, "socket", cbrq->socket);
 
   lw.tables.set_method(tableServer, "read_body", read_raw_body);
   lw.tables.set_method(tableServer, "read_json_body", read_json_from_table);
