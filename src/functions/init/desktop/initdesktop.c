@@ -2,7 +2,7 @@
 #include "../uniq.definitions_requirements.h"
 
 LuaCEmbedResponse *initdesktop(LuaCEmbed *arg) {
-
+  #ifdef __linux__
   char *starter = lw.args.get_str(arg, 0);
 
   if (lw.has_errors(arg)) {
@@ -90,4 +90,5 @@ LuaCEmbedResponse *initdesktop(LuaCEmbed *arg) {
   }
   printf("application terminated\n");
   return NULL;
+  #endif
 }

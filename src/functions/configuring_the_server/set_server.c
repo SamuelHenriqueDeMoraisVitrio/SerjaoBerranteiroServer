@@ -2,8 +2,10 @@
 #include "../uniq.definitions_requirements.h"
 
 void get_params_for_server_config(struct CwebServer *struct_server_TEMP) {
+  #ifdef __linux__
   struct_server_TEMP->single_process =
       lw.tables.get_bool_prop(set_server, "single_process");
+    #endif
   struct_server_TEMP->allow_cors =
       lw.tables.get_bool_prop(set_server, "allow_cors");
   struct_server_TEMP->use_static =
@@ -18,6 +20,7 @@ void get_params_for_server_config(struct CwebServer *struct_server_TEMP) {
       lw.tables.get_long_prop(set_server, "max_queue");
   struct_server_TEMP->max_requests =
       lw.tables.get_long_prop(set_server, "max_request");
+
 }
 
 void creat_table_for_config_server() {
