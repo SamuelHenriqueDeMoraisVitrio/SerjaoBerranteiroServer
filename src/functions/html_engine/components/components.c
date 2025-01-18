@@ -40,7 +40,7 @@ TextOrError render_component_raw(LuaCEmbedTable *self) {
       return props;
     }
 
-    CTextStack_$open(stack, tag, "%s", props.text);
+    CTextStack_open_format(stack, tag, "%s", props.text);
     free(props.text);
   }
 

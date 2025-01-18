@@ -18,7 +18,7 @@ LuaCEmbedResponse *send_raw(LuaCEmbed *args) {
   CwebHttpResponse *response = NULL;
 
   if (firsr_type == lw.types.STRING) {
-    long size;
+    lua_Integer  size;
     char *value = lw.args.get_raw_str(args, &size, 0);
     response = cb.response.send_any(content_type, size, (unsigned char *)value,
                                     status_code);
