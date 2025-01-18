@@ -44,7 +44,7 @@ LuaCEmbedResponse *send_raw(LuaCEmbed *args) {
   }
 
   LuaCEmbedTable *table = lw.tables.new_anonymous_table(args);
-  lw.tables.set_long_prop(table, "response_pointer", (long long)response);
+  lw.tables.set_long_prop(table, "response_pointer", (serjao_ptr_cast)response);
   lw.tables.set_bool_prop(table, "its_a_reference", false);
   lw.tables.set_method(table, "__gc", clear_memory_response);
   return lw.response.send_table(table);
@@ -76,7 +76,7 @@ LuaCEmbedResponse *send_file(LuaCEmbed *args) {
       cb.response.send_file(rout_file, content_type, status_code);
 
   LuaCEmbedTable *table = lw.tables.new_anonymous_table(args);
-  lw.tables.set_long_prop(table, "response_pointer", (long long)response);
+  lw.tables.set_long_prop(table, "response_pointer", (serjao_ptr_cast)response);
   lw.tables.set_bool_prop(table, "its_a_reference", false);
   lw.tables.set_method(table, "__gc", clear_memory_response);
   return lw.response.send_table(table);
@@ -99,7 +99,7 @@ LuaCEmbedResponse *send_text(LuaCEmbed *args) {
   CwebHttpResponse *response = cb.response.send_text(text, status_code);
 
   LuaCEmbedTable *table = lw.tables.new_anonymous_table(args);
-  lw.tables.set_long_prop(table, "response_pointer", (long long)response);
+  lw.tables.set_long_prop(table, "response_pointer", (serjao_ptr_cast)response);
   lw.tables.set_bool_prop(table, "its_a_reference", false);
   lw.tables.set_method(table, "__gc", clear_memory_response);
   return lw.response.send_table(table);
@@ -112,7 +112,7 @@ LuaCEmbedResponse *clear_memory_response(LuaCEmbedTable *self,
 
   if (!its_a_refe) {
     CwebHttpResponse *response =
-        (CwebHttpResponse *)lw.tables.get_long_prop(self, "response_pointer");
+        (CwebHttpResponse *)(serjao_ptr_cast)lw.tables.get_long_prop(self, "response_pointer");
     cb.response.free(response);
   }
 

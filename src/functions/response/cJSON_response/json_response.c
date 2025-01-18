@@ -137,7 +137,7 @@ LuaCEmbedResponse *send_json(LuaCEmbed *args) {
   cJSON_Delete(result);
 
   LuaCEmbedTable *table = lw.tables.new_anonymous_table(args);
-  lw.tables.set_long_prop(table, "response_pointer", (long long)response);
+  lw.tables.set_long_prop(table, "response_pointer", (serjao_ptr_cast)response);
   lw.tables.set_bool_prop(table, "its_a_reference", false);
   lw.tables.set_method(table, "__gc", clear_memory_response);
   return lw.response.send_table(table);
@@ -160,7 +160,7 @@ LuaCEmbedResponse *send_json_string(LuaCEmbed *args) {
       cb.response.send_json_string((char *)json_string, status_code);
 
   LuaCEmbedTable *table = lw.tables.new_anonymous_table(args);
-  lw.tables.set_long_prop(table, "response_pointer", (long long)response);
+  lw.tables.set_long_prop(table, "response_pointer", (serjao_ptr_cast)response);
   lw.tables.set_bool_prop(table, "its_a_reference", false);
   lw.tables.set_method(table, "__gc", clear_memory_response);
   return lw.response.send_table(table);

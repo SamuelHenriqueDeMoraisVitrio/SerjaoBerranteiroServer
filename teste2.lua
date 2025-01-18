@@ -34,3 +34,4 @@ local function main(request)
 end
 
 serjao.server(3001, main)
+--i686-w64-mingw32-gcc -c src/main.c -o teste.o
