@@ -1,3 +1,8 @@
+local info = debug.getinfo(1, "S")
+local path = info.source:match("@(.*/)") or ""
+
+
+
 
 
 ---@class abbr
@@ -437,8 +442,6 @@
 ---@field fragment fun(...: string):table
 ---@field kill fun()
 
-local info = debug.getinfo(1, "S")
-local path = info.source:match("@(.*/)") or ""
 
 
 local lib_path = ''

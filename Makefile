@@ -24,7 +24,7 @@ all: clear
 	@$(ROUTERUN)
 
 zip: clear
-	@rm serjao_server.zip
+	@rm -f serjao_server.zip
 	@zip -r serjao_server.zip serjao_berranteiro
 	@echo ""
 	@zip -T serjao_server.zip -v
