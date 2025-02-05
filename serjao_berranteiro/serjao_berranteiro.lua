@@ -452,7 +452,7 @@ function get_serjao_lib()
     local global_path = "/usr/lib/lua/"..formmated_version.."/serjao_berranteiro.so"
     --verify if global path exists
     local possible_global_lib = package.loadlib(global_path, "serjao_berranteiro_start_point")
-    if possible_global_path then
+    if possible_global_lib then
         return possible_global_lib()
     end
 
