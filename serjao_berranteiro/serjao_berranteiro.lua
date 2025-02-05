@@ -1,8 +1,3 @@
-local info = debug.getinfo(1, "S")
-local path = info.source:match("@(.*/)") or ""
-
-
-
 
 
 ---@class abbr
@@ -417,10 +412,6 @@ local path = info.source:match("@(.*/)") or ""
 ---@field url string
 ---@field method string
 ---@field route string
----@field ip string
----@field content_length number
----@field content_error number
----@field socket number
 ---@field params table<number, param>|table<string, string>
 ---@field header table<number, header>|table<string, string>
 ---@field read_json_body fun(max_size:number):table
@@ -442,20 +433,35 @@ local path = info.source:match("@(.*/)") or ""
 ---@field fragment fun(...: string):table
 ---@field kill fun()
 
+function get_serjao_lib()
 
+    local info = debug.getinfo(1, "S")
+    local path = info.source:match("@(.*/)") or ""
+    if not path then
+        error("path not found")
+    end
 
-local lib_path = ''
+    local possible_local_file = path .. "serjao_berranteiro.so"
+    local possible_local_lib = package.loadlib(possible_local_file, "serjao_berranteiro_start_point")
+    if possible_local_lib then
+        return possible_local_lib()
+    end
 
-if os.getenv("HOME") then
-    lib_path = path .. "serjao_berranteiro.so"
-else
-    perror("undefined os")
+    local formmated_version = string.gsub(_VERSION, "Lua ", "")
+
+    local global_path = "/usr/lib/lua/"..formmated_version.."/serjao_berranteiro.so"
+    --verify if global path exists
+    local possible_global_lib = package.loadlib(global_path, "serjao_berranteiro_start_point")
+    if possible_global_path then
+        return possible_global_lib()
+    end
+
+    error("lua not found")
+
 end
 
-local load_lua = package.loadlib(lib_path, "serjao_berranteiro_start_point")
-
 ---@type serjaoBerranteiro
-local lib = load_lua()
+local lib = get_serjao_lib()
 
 ---@type SetServer
 set_server = set_server
