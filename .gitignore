@@ -1,1 +1,6 @@
-.idea
+
+*.so
+dependencies
+release
+src/imports
+teste.lua
