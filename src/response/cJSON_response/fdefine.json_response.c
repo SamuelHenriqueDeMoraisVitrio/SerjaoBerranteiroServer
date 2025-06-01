@@ -4,7 +4,7 @@
 //silver_chain_scope_end
 
 
-bool lua_json_fluid_table_is_object(LuaCEmbedTable *table) {
+bool lua_serjao_table_is_object(LuaCEmbedTable *table) {
   long size = LuaCEmbedTable_get_full_size(table);
   for (int i = 0; i < size; i++) {
     if (LuaCembedTable_has_key_at_index(table, i) == false) {
@@ -88,7 +88,7 @@ cJSON *serjao_json_dump_to_cJSON_object(LuaCEmbedTable *table) {
 //------
 cJSON *serjao_json_dump_table_to_cJSON(LuaCEmbedTable *table) {
 
-  if (lua_json_fluid_table_is_object(table)) {
+  if (lua_serjao_table_is_object(table)) {
 
     return serjao_json_dump_to_cJSON_object(table);
   }
