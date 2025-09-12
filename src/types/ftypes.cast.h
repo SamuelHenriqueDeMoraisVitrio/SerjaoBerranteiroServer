@@ -3,7 +3,7 @@
 #include "../imports/imports.dependencie.h"
 //silver_chain_scope_end
 
-#ifdef __linux__
+#if (defined(__unix__) || defined(__APPLE__))
 #define  serjao_ptr_cast long long
 #endif
 
